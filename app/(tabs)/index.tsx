@@ -60,7 +60,7 @@ export default function Index() {
           language = {item.language} 
           description={item.description}
           url={item.url}
-          onPress = {() => router.push({pathname: '/places',params: { itemId: item.id, country: item.name, otherParam: 'anything you want here' }})}
+          onPress = {() => router.push({pathname: '/place',params: { itemId: item.id, country: item.name, otherParam: 'anything you want here' }})}
           />}    
       />    
     </SafeAreaView>
