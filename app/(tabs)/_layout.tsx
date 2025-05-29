@@ -31,14 +31,21 @@ export default function RootLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'location-sharp' : 'location-outline'} color={color} size={24} />
           ),
-
-        }} />
+          href:{
+            pathname:'/(tabs)/place',
+            params:{
+               CountryId: ''                     
+            }
+          }
+        }
+        } />
         <Tabs.Screen name="favorite" options={{
           headerShown: false,
           title: 'Favorite',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'star-sharp' : 'star-outline'} color={color} size={24} />
           ),
+
         }} />
         <Tabs.Screen name="setting" options={{
           headerShown: false,

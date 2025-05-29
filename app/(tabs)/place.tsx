@@ -33,7 +33,7 @@ const places = () => {
     }
 
     fetchData();
-  }, []);
+  }, [CountryId]);
 
   if (loading) {
     return <View><Text>Loading...</Text></View>;
@@ -49,7 +49,7 @@ const places = () => {
         <View style={styles.search}>
           <TextInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
         </View>
-        <Text>{place}</Text>
+        {/* <Text>{place}</Text> */}
         {/* <Text>{CountryId}</Text> 
          <Text>{otherParam}</Text>
          */}        
@@ -64,7 +64,7 @@ const places = () => {
           capital = {item.capital} 
           description={item.description}
           url={item.url}
-          onPress = {() => router.push({pathname: '/place',params: { country: item.name, otherParam: 'anything you want here' }})}
+          onPress = {() => router.push({pathname: '/placeCard',params: { country: item.name, otherParam: 'anything you want here' }})}
           />}    
       />  
       </SafeAreaView>
