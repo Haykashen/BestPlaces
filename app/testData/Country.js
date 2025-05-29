@@ -1,4 +1,4 @@
-export const CountryData = [
+const CountryData = [
   {
     id:'1',
     name:"Япония",
@@ -27,3 +27,5 @@ export const CountryData = [
     url:"https://cdn.steemitimages.com/DQmUg914XPFjXg4andENEgNXiKC8QJekRe9vhefkFGhB3y1/image.png"
   },
 ];
+
+export default CountryData;

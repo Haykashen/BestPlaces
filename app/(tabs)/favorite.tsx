@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 
-const save = () => {
+const favorite = () => {
   return (
     <View>
       <Text>save</Text>
@@ -9,4 +9,4 @@ const save = () => {
   )
 }
 
-export default save
+export default favorite
