@@ -16,7 +16,8 @@ const places = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        let urlEnd = CountryId ? "/countries/"+CountryId+"/places":"/places";
+        let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
+        let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
         const response = await fetch("http://best-place.online:8080"+urlEnd, {
           method: 'GET',
           headers: {
@@ -33,28 +34,32 @@ const places = () => {
     }
 
     fetchData();
-  }, [CountryId]);
+  }, [CountryId, seacrchPlace]);
 
   if (loading) {
-    return <View><Text>Loading...</Text></View>;
+    return (<SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>)
   }
 
   if (error) {
-    return <View><Text>Error: {error}</Text></View>;
+    return (<SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text>Error: {error}</Text>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>)
   }
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.search}>
-          <TextInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
-        </View>
-        {/* <Text>{place}</Text> */}
-        {/* <Text>{CountryId}</Text> 
-         <Text>{otherParam}</Text>
-         */}        
+      <SafeAreaView style={styles.container}>    
         <Text>{country}</Text>
-
         <FlatList
         data={JSON.parse(place)}
         keyExtractor={item => item.id}
@@ -64,8 +69,19 @@ const places = () => {
           capital = {item.capital} 
           description={item.description}
           url={item.url}
-          onPress = {() => router.push({pathname: '/placeCard',params: { country: item.name, otherParam: 'anything you want here' }})}
-          />}    
+          onPress = {() => router.push({pathname: '/plase',params: { country: item.name, otherParam: 'anything you want here' }})}
+          />} 
+          ListHeaderComponent={() => (
+            <View style={styles.search}>
+              <TextInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
+            </View>
+          )}   
+        ListEmptyComponent={() => (
+          <View>
+            <Text>"No Places Found"</Text>  
+            <Text>"No places found for this search query"</Text>  
+          </View> 
+          )}               
       />  
       </SafeAreaView>
     </SafeAreaProvider>

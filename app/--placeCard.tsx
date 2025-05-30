@@ -1,17 +1,30 @@
-import { View, Text } from 'react-native'
+import { StatusBar, View, Text, StyleSheet } from 'react-native'
 import React from 'react'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 
 const placeCard = () => {
+
   return (
 
-              <View style={{flex:1}}>
-                 <Text>1</Text>
-              </View>
-
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View style={{ flex: 1 }}>
+      <Text>1</Text>
+    </View>
+    </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
-
-// export default placeCard
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: 'white',
+    alignContent:'center',
+    alignItems:'center'
+  },
+})
+export default placeCard
 
 // import { window } from "@/constants/sizes";
 // import { renderItem } from "@/utils/render-item";
