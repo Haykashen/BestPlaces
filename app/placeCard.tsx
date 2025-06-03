@@ -1,62 +1,21 @@
-
-// import React from 'react';
-// import { StatusBar, StyleSheet, Text, View } from "react-native";
-// import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-// import { router, useLocalSearchParams } from "expo-router";
-
-// const plase = () => {
-//   const { otherParam, itemId } = useLocalSearchParams();
-//   return (
-//     <SafeAreaProvider>
-//       <SafeAreaView style={styles.container}>
-//         <View>
-//           <Ionicons name='arrow-back' color="green" size={24} />
-//           <Text>Place name</Text>
-//           <Ionicons name='star-sharp' color="green" size={24} />
-//         </View>
-//         <View>
-//           <Text>Pictures karusel</Text>
-//         </View>
-//         <View style={{ flexDirection: 'row' }}>
-//           <Ionicons name='map-sharp' color="green" size={24} />
-//           <Text>Иконка места</Text>
-//           <Text>Бали+,+Инндонезия</Text>
-//         </View>
-//         <View>
-//           <Text>About place</Text>
-//           <Text>text about</Text>
-//         </View>
-//         <View>
-//           <Text>Location</Text>
-
-//           <Text>Карта места</Text>
-//         </View>
-//       </SafeAreaView>
-//     </SafeAreaProvider>
-
-//   )
-// }
-
-// export default plase
-
-
-
 import { window } from "./constants/sizes";
 import { renderItem } from "./utils/render-item";
 import { useState, useEffect } from "react";
-import { StatusBar, StyleSheet, View, Text } from "react-native";
+import { StatusBar, StyleSheet, View, Text, ImageURISource  } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 
- const defaultDataWith6Colors = ["#B0604D", "#899F9C", "#B3C680", "#5C6265", "#F5D399", "#F1F1F1"];
+const defaultDataWith6Colors = ["#B0604D", "#899F9C", "#B3C680", "#5C6265", "#F5D399", "#F1F1F1"];
+type TPlace = {id:string, name:string, description: string, longitude:string, latitude:string, country_id:string, url:ImageURISource[]};
 
 const placeCard = () => {
-  const [place, setPlace] = useState('');
+  const [place, setPlace] = useState<TPlace>();
   const { otherParam, placeID } = useLocalSearchParams();
-   const progress = useSharedValue<number>(0);
+  const progress = useSharedValue<number>(0);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -68,7 +27,7 @@ const placeCard = () => {
           },
         });
         const data = await response.json();
-        setPlace(JSON.stringify(data));
+        setPlace(data);
         // setLoading(false);
       } catch (error) {
         // setError(JSON.stringify(error));
@@ -77,14 +36,15 @@ const placeCard = () => {
     }
 
     fetchData();
-  }, [place]);
+  }, []);
+
    return (
      <SafeAreaProvider>
        <SafeAreaView style={styles.container}>         
-        <View>
+        <View style={{flexDirection:'row'}}>
            <Ionicons name='arrow-back' color="green" size={24} />
-           <Text>{place}</Text>
-          <Text>placeID = {placeID}</Text>
+           <Text>{place?.name}</Text>
+          {/* <Text>placeID = {placeID}</Text> */}
            <Ionicons name='star-sharp' color="green" size={24} />
          </View>
          <Carousel
@@ -104,16 +64,15 @@ const placeCard = () => {
              parallaxScrollingOffset: 50,
            }}
            onProgressChange={progress}
-           renderItem={renderItem({ rounded: true })}
+           renderItem={renderItem({ rounded: true, source: 'https://images.unsplash.com/photo-1599173705513-0880f530cd3d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' })}
          />
          <View style={{ flexDirection: 'row' }}>
            <Ionicons name="location-outline" size={24} color="green" />
-           <Text>Иконка места</Text>
-           <Text>Бали+,+Инндонезия</Text>
+           <Text>Бали+, {place?.name}</Text>
          </View>
          <View>
            <Text>About place</Text>
-           <Text>text about</Text>
+           <Text>{place?.description}</Text>
          </View>
          <View>
            <Text>Location</Text>
