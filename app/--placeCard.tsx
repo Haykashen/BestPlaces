@@ -5,13 +5,12 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 const placeCard = () => {
 
   return (
-
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View style={{ flex: 1 }}>
-      <Text>1</Text>
-    </View>
-    </SafeAreaView>
+          <Text>1</Text>
+        </View>
+      </SafeAreaView>
     </SafeAreaProvider>
   )
 }
