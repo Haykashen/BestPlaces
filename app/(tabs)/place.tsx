@@ -69,7 +69,7 @@ const places = () => {
           capital = {item.capital} 
           description={item.description}
           url={item.url}
-          onPress = {() => router.push({pathname: '/plase',params: { country: item.name, otherParam: 'anything you want here' }})}
+          onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
           />} 
           ListHeaderComponent={() => (
             <View style={styles.search}>
