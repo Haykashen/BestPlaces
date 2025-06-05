@@ -7,14 +7,22 @@ import Carousel from "react-native-reanimated-carousel";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
+import { TPlace, TCountry } from "./constants/types";
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
-const defaultDataWith6Colors = ["#B0604D", "#899F9C", "#B3C680", "#5C6265", "#F5D399", "#F1F1F1"];
-type TPlace = {id:string, name:string, description: string, longitude:string, latitude:string, country_id:string, url:string[]};
+// Set the animation options. This is optional.
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});
 
 const placeCard = () => {
   const [place, setPlace] = useState<TPlace>();
   const { otherParam, placeID } = useLocalSearchParams();
   const progress = useSharedValue<number>(0);
+  const [cardIsReady, setCardIsReady] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -28,6 +36,7 @@ const placeCard = () => {
         });
         const data = await response.json();
         setPlace(data);
+        setCardIsReady(true)
         // setLoading(false);
       } catch (error) {
         // setError(JSON.stringify(error));
@@ -37,6 +46,9 @@ const placeCard = () => {
 
     fetchData();
   }, []);
+
+  if(cardIsReady)
+    SplashScreen.hide();
 
    return (
      <SafeAreaProvider>

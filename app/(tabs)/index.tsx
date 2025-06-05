@@ -4,12 +4,13 @@ import { useState, useEffect, ErrorInfo } from "react";
 import { FlatList, Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CountryItem  from '@/app/components/CountryItem';
+import { TCountry } from '../constants/types';
 //import {getCountries} from '@/app/api/api'
 
 
 export default function Index() {
   
-  const [countries, setCountries] = useState('')
+  const [countries, setCountries] = useState<TCountry[]>([{id:'test', capital:'test', currency:'test', name:'test', description:'test', language:'asa', url:'sdsdsd'}])
   const [searchCountry, setSearchCountry] =  useState('')
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ export default function Index() {
           },
         });
         const data = await response.json();
-        setCountries(JSON.stringify(data));
+        setCountries(data);
         setLoading(false);
         setRefreshing(false);
       } catch (error) {
@@ -59,7 +60,7 @@ export default function Index() {
     <SafeAreaView style={styles.container}>
        <Text>Refresh: {refreshing? 'true': 'false'}</Text>
       <FlatList style = {styles.list}
-        data={JSON.parse(countries)}
+        data={countries}
         keyExtractor={item => item.id}
         renderItem={({item}) => <CountryItem 
           name = {item.name} 

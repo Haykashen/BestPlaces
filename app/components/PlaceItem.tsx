@@ -1,15 +1,13 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { TPlaceItemProps } from '../constants/types';
 
-type ItemProps = {name: string, country: string | string[], capital?: string, description?: string, url: string, onPress?: (() => void) };
-
-
-const PlaceItem = ({name, country, description, url, onPress}: ItemProps) => {
+const PlaceItem = ({name, country, description, url, onPress}: TPlaceItemProps) => {
     return (
         <TouchableOpacity style={styles.item} onPress={onPress}>
             <Text style={styles.title}>{name}</Text>
-            <Image style={styles.tinyLogo} source={{ uri: url, }} alt="Picture" />
+            {/* <Image style={styles.tinyLogo} source={{ uri: url, }} alt="Picture" /> */}
             <View>
                 <View style={{ flexDirection: 'row' }}>
                     <Ionicons name='location-outline' color="green" size={24} />
