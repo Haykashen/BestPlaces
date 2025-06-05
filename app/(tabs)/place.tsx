@@ -4,6 +4,7 @@ import { StatusBar, StyleSheet, TextInput, View, Text, FlatList } from "react-na
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from "expo-router";
 import PlaceItem from '../components/PlaceItem';
+import { TPlace, TCountry } from "../constants/types";
 
 const places = () => {
   const { otherParam, CountryId, country } = useLocalSearchParams();
@@ -59,14 +60,13 @@ const places = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>    
-        <Text>{country}</Text>
+        <Text>{country? country :'test'}</Text>
         <FlatList
         data={JSON.parse(place)}
         keyExtractor={item => item.id}
         renderItem={({item}) => <PlaceItem 
           name = {item.name} 
-          country = {country} 
-          capital = {item.capital} 
+          country = {country? country :'test'} 
           description={item.description}
           url={item.url}
           onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
