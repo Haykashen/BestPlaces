@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 
 const defaultDataWith6Colors = ["#B0604D", "#899F9C", "#B3C680", "#5C6265", "#F5D399", "#F1F1F1"];
-type TPlace = {id:string, name:string, description: string, longitude:string, latitude:string, country_id:string, url:ImageURISource[]};
+type TPlace = {id:string, name:string, description: string, longitude:string, latitude:string, country_id:string, url:string[]};
 
 const placeCard = () => {
   const [place, setPlace] = useState<TPlace>();
@@ -49,7 +49,7 @@ const placeCard = () => {
          </View>
          <Carousel
            autoPlayInterval={2000}
-           data={defaultDataWith6Colors}
+           data={place?.url?place.url:[]}
            height={258}
            loop={true}
            pagingEnabled={true}
@@ -64,7 +64,7 @@ const placeCard = () => {
              parallaxScrollingOffset: 50,
            }}
            onProgressChange={progress}
-           renderItem={renderItem({ rounded: true, source: 'https://images.unsplash.com/photo-1599173705513-0880f530cd3d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' })}
+           renderItem={renderItem({ rounded: true, source: place?.url })}
          />
          <View style={{ flexDirection: 'row' }}>
            <Ionicons name="location-outline" size={24} color="green" />

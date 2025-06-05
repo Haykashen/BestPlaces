@@ -16,7 +16,7 @@ interface Props extends AnimatedProps<ViewProps> {
   style?: StyleProp<ImageStyle>;
   index?: number;
   rounded?: boolean;
-  source?: string;
+  source?: string[];
 }
 
 export const SlideItem: React.FC<Props> = (props) => {
@@ -31,7 +31,7 @@ export const SlideItem: React.FC<Props> = (props) => {
     <Animated.View testID={testID} style={{ flex: 1 }} {...animatedViewProps}>
       <Animated.Image
         style={[style, styles.container, rounded && { borderRadius: 15 }]}
-        source={{uri:source}}
+        source={{uri: source[index]}}
         resizeMode="cover"
       />
       <View style={styles.overlay}>

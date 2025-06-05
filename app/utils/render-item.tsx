@@ -6,7 +6,7 @@ import { ImageURISource } from 'react-native';
  interface Options {
    rounded?: boolean;
    style?: StyleProp<ImageStyle>;
-   source?: string
+   source?: string[]
  }
 
  export const renderItem =
