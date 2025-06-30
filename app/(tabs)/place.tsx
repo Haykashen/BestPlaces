@@ -1,18 +1,31 @@
 import { useRouter } from 'expo-router';
 import { useState, useEffect } from "react";
-import { StatusBar, StyleSheet, TextInput, View, Text, FlatList } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
+import { StatusBar, StyleSheet, TextInput, View, Text, FlatList, RefreshControl } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from "expo-router";
 import PlaceItem from '../components/PlaceItem';
 import { TPlace, TCountry } from "../constants/types";
+import ListEpmtyComponent from '../components/ListEpmtyComponent';
 
 const places = () => {
   const { otherParam, CountryId, country } = useLocalSearchParams();
-  const [place, setPlace] = useState('')
+  const [place, setPlace] = useState<TPlace[]>([
+    {"id":"3","name":"Перекрёсток Сибуя","description":"Самый оживлённый пешеходный переход в мире в Токио.",
+      "longitude":"139.7002","latitude":"35.6595","country":{"id":"1","name":"Япония","capital":"Токио","language":"Японский",
+      "currency":"JPY","description":"Страна контрастов, где древние традиции сочетаются с футуристическими инновациями.",
+      "url":"https://images.unsplash.com/photo-1528164344705-47542687000d?q=80\u0026w=2692\u0026auto=format\u0026fit=crop\u0026ixlib=rb-4.1.0\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
+      "url":["https://images.unsplash.com/photo-1528164344705-47542687000d?q=80\u0026w=2692\u0026auto=format\u0026fit=crop\u0026ixlib=rb-4.1.0\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"]}])
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [refreshing, setRefreshing] = useState(false);
+
+  let strArray:string[] = [];
+
+  const onRefresh = async () => {
+    setRefreshing(true);   
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -26,62 +39,55 @@ const places = () => {
           },
         });
         const data = await response.json();
-        setPlace(JSON.stringify(data));
-        setLoading(false);
+        setPlace(data);
       } catch (error) {
         setError(JSON.stringify(error));
-        setLoading(false);
       }
+      finally{
+        setLoading(false);
+        setRefreshing(false);
+      }      
     }
 
     fetchData();
   }, [CountryId, seacrchPlace]);
 
   if (loading) {
-    return (<SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>)
+    strArray = ['Loading...']
   }
-
-  if (error) {
-    return (<SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <View>
-          <Text>Error: {error}</Text>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>)
+  else if (error) {
+    strArray = ['Error...'+error]
+  }
+  else{
+   strArray = ["No Places Found", "No places found for this search query"] 
   }
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>    
-        <Text>{country? country :'test'}</Text>
+        <Text>{country? country :'test country '}</Text>
+        {refreshing && <Text>Refresh: {refreshing? 'true': 'false'}</Text>}
         <FlatList
-        data={JSON.parse(place)}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => <PlaceItem 
-          name = {item.name} 
-          country = {country? country :'test'} 
-          description={item.description}
-          url={item.url}
-          onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
+          data={place}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => <PlaceItem 
+            name = {item.name} 
+            country = {country? country :'test'} 
+            description={item.description}
+            url={item.url[0]}
+            onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
           />} 
           ListHeaderComponent={() => (
             <View style={styles.search}>
               <TextInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
             </View>
-          )}   
-        ListEmptyComponent={() => (
-          <View>
-            <Text>"No Places Found"</Text>  
-            <Text>"No places found for this search query"</Text>  
-          </View> 
-          )}               
+          )}    
+          ListEmptyComponent={() => (
+            <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
+           )}
+         refreshControl={
+           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+         }                           
       />  
       </SafeAreaView>
     </SafeAreaProvider>

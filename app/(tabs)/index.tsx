@@ -5,23 +5,22 @@ import { FlatList, Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpaci
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CountryItem  from '@/app/components/CountryItem';
 import { TCountry } from '../constants/types';
-import CountryListEpmtyComponent from '../components/CountryListEpmtyComponent';
+import ListEpmtyComponent from '../components/ListEpmtyComponent';
 //import {getCountries} from '@/app/api/api'
 
 
 export default function Index() {
   
-  const [countries, setCountries] = useState<TCountry[]>([{id:'test', capital:'test', currency:'test', name:'test', description:'test', language:'asa', url:'sdsdsd'}])
-  const [searchCountry, setSearchCountry] =  useState('')
+  const [countries, setCountries] = useState<TCountry[]>([{id:'test', capital:'test', currency:'test', name:'test', description:'test', language:'asa', url:'sdsdsd'}]);
+  const [searchCountry, setSearchCountry] =  useState('');
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  let strArray:string[] = [];
 
-  var strArray:string[] = [];
   const onRefresh = async () => {
-    setRefreshing(true);
-    
+    setRefreshing(true);   
   };
 
   useEffect(() => {
@@ -37,13 +36,15 @@ export default function Index() {
         });
         const data = await response.json();
         setCountries(data);
-        setCountries(data);
+        
+      } catch (error) {
+        //setCountries([]);
+        setError(JSON.stringify(error));
+        
+      }
+      finally{
         setLoading(false);
         setRefreshing(false);
-      } catch (error) {
-        setCountries([]);
-        setError(JSON.stringify(error));
-        setLoading(false);
       }
     }
 
@@ -54,7 +55,7 @@ export default function Index() {
      strArray = ['Loading...']
    }
    else if (error) {
-     strArray = ['Error...']
+     strArray = ['Error...'+error]
    }
    else{
     strArray = ["No Countries Found", "No countries found for this search query"] 
@@ -69,21 +70,21 @@ export default function Index() {
         data={countries}
         keyExtractor={item => item.id}
         renderItem={({item}) => <CountryItem 
-          name = {item.name} 
-          currency = {item.currency} 
-          capital = {item.capital} 
-          language = {item.language} 
-          description={item.description}
-          url={item.url}
-          onPress = {() => router.push({pathname: '/place',params: { CountryId: item.id, country: item.name, otherParam: 'anything you want here' }})}
+            name = {item.name} 
+            currency = {item.currency} 
+            capital = {item.capital} 
+            language = {item.language} 
+            description={item.description}
+            url={item.url}
+            onPress = {() => router.push({pathname: '/place',params: { CountryId: item.id, country: item.name, otherParam: 'anything you want here' }})}
           />}  
           ListHeaderComponent={() => (
             <View style={styles.search}>
-              <TextInput onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." value={searchCountry} />
+              <TextInput  style={styles.search_input} onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." value={searchCountry} />
             </View>
           )}              
         ListEmptyComponent={() => (
-           <CountryListEpmtyComponent strArray={strArray} style={styles.container}/>  
+           <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
           )}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: 'white',
+    backgroundColor: '#1b1725',
     alignContent:'center',
   },
   search:{
@@ -111,9 +112,12 @@ const styles = StyleSheet.create({
     borderWidth:2,
     alignItems:'center'
   },
+  search_input:{
+    width:'100%',
+    height:'100%'
+  },
   list:{
     flex:1,
-    alignContent:'center',
-    backgroundColor:'grey'    
+    alignContent:'center', 
   }
 });

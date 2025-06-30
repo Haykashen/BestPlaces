@@ -6,7 +6,7 @@ import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 type TListEpmtyProps = {strArray?: string[], style?: StyleProp<ViewStyle>};
 
-const CountryListEpmtyComponent = ({strArray, style}: TListEpmtyProps) => {
+const ListEpmtyComponent = ({strArray, style}: TListEpmtyProps) => {
   return (
        <SafeAreaProvider>
         <SafeAreaView style={style}>
@@ -18,4 +18,4 @@ const CountryListEpmtyComponent = ({strArray, style}: TListEpmtyProps) => {
   )
 }
 
-export default CountryListEpmtyComponent
+export default ListEpmtyComponent
