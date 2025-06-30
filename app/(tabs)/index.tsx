@@ -4,7 +4,7 @@ import { useState, useEffect, ErrorInfo } from "react";
 import { FlatList, Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CountryItem  from '@/app/components/CountryItem';
-import { TCountry, TEmptyListTextArray } from '../constants/types';
+import { TCountry } from '../constants/types';
 import CountryListEpmtyComponent from '../components/CountryListEpmtyComponent';
 //import {getCountries} from '@/app/api/api'
 
@@ -17,8 +17,8 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
-  const [emptyListText, setEmptyListText] = useState<TEmptyListTextArray>([])
 
+  var strArray:string[] = [];
   const onRefresh = async () => {
     setRefreshing(true);
     
@@ -50,15 +50,15 @@ export default function Index() {
     fetchData();
   }, [searchCountry, refreshing]);
 
-  // if (loading) {
-  //   setEmptyListText(["Loading..."])
-  // }
-  // else if (error) {
-  //   setEmptyListText(['Error...'])
-  // }
-  // else{
-   // setEmptyListText(["No Countries Found", "No countries found for this search query"])  
-  // }
+   if (loading) {
+     strArray = ['Loading...']
+   }
+   else if (error) {
+     strArray = ['Error...']
+   }
+   else{
+    strArray = ["No Countries Found", "No countries found for this search query"] 
+   }
 
 
   return (
@@ -83,7 +83,7 @@ export default function Index() {
             </View>
           )}              
         ListEmptyComponent={() => (
-           <CountryListEpmtyComponent str = {'lulu'} style={styles.container}/>  
+           <CountryListEpmtyComponent strArray={strArray} style={styles.container}/>  
           )}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
