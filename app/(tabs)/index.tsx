@@ -37,6 +37,7 @@ export default function Index() {
         });
         const data = await response.json();
         setCountries(data);
+        setCountries(data);
         setLoading(false);
         setRefreshing(false);
       } catch (error) {
