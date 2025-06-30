@@ -9,14 +9,14 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { TPlace, TCountry } from "./constants/types";
-// Keep the splash screen visible while we fetch resources
-SplashScreen.preventAutoHideAsync();
+// // Keep the splash screen visible while we fetch resources
+// SplashScreen.preventAutoHideAsync();
 
-// Set the animation options. This is optional.
-SplashScreen.setOptions({
-  duration: 1000,
-  fade: true,
-});
+// // Set the animation options. This is optional.
+// SplashScreen.setOptions({
+//   duration: 1000,
+//   fade: true,
+// });
 
 const placeCard = () => {
   const [place, setPlace] = useState<TPlace>();
@@ -47,8 +47,8 @@ const placeCard = () => {
     fetchData();
   }, []);
 
-  if(cardIsReady)
-    SplashScreen.hide();
+  // if(cardIsReady)
+  //   SplashScreen.hide();
 
    return (
      <SafeAreaProvider>
