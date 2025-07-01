@@ -27,8 +27,7 @@ const placeCard = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        
-        const response = await fetch("http://best-place.online:8080/places/"+placeID, {
+        const response = await fetch("http://best-place.online:8080/places/" + placeID, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -52,16 +51,16 @@ const placeCard = () => {
 
    return (
      <SafeAreaProvider>
-       <SafeAreaView style={styles.container}>         
-        <View style={{flexDirection:'row'}}>
+       <SafeAreaView style={styles.container}>
+         <View style={{ flexDirection: 'row' }}>
            <Ionicons name='arrow-back' color="green" size={24} />
            <Text>{place?.name}</Text>
-          {/* <Text>placeID = {placeID}</Text> */}
+           {/* <Text>placeID = {placeID}</Text> */}
            <Ionicons name='star-sharp' color="green" size={24} />
          </View>
          <Carousel
            autoPlayInterval={2000}
-           data={place?.url?place.url:[]}
+           data={place?.url ? place.url : []}
            height={258}
            loop={true}
            pagingEnabled={true}

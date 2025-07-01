@@ -40,8 +40,9 @@ const places = () => {
         });
         const data = await response.json();
         setPlace(data);
-      } catch (error) {
-        setError(JSON.stringify(error));
+      } catch (e) {
+        setPlace([]);
+        setError((e as Error).message);
       }
       finally{
         setLoading(false);

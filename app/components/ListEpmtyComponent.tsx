@@ -6,15 +6,15 @@ import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
 
 type TListEpmtyProps = {strArray?: string[], style?: StyleProp<ViewStyle>};
 
-const ListEpmtyComponent = ({strArray, style}: TListEpmtyProps) => {
+const ListEpmtyComponent = ({ strArray, style }: TListEpmtyProps) => {
   return (
-       <SafeAreaProvider>
-        <SafeAreaView style={style}>
-          <View>
-            {strArray?.map((value:string, index:number)=> <Text key={index}>{value}</Text>)}
-          </View>
-        </SafeAreaView>
-      </SafeAreaProvider>   
+    <SafeAreaProvider>
+      <SafeAreaView style={style}>
+        <View>
+          {strArray?.map((value: string, index: number) => <Text key={index}>{value}</Text>)}
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   )
 }
 

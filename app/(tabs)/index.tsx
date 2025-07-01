@@ -37,9 +37,9 @@ export default function Index() {
         const data = await response.json();
         setCountries(data);
         
-      } catch (error) {
-        //setCountries([]);
-        setError(JSON.stringify(error));
+      } catch (e) {
+        setCountries([]);
+        setError((e as Error).message);
         
       }
       finally{

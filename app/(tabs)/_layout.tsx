@@ -7,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 export default function RootLayout() {
   return (
     <>
-      <StatusBar backgroundColor="#161622" style="dark" />
+      <StatusBar style="dark" />
 
       <Tabs
         screenOptions={{
