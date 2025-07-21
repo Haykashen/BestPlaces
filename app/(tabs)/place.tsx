@@ -6,6 +6,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import PlaceItem from '../components/PlaceItem';
 import { TPlace, TCountry } from "../constants/types";
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
+import Colors from '@/assets/Colors';
+import SearchInput from '../components/SearchInput';
 
 const places = () => {
   const { otherParam, CountryId, country } = useLocalSearchParams();
@@ -32,6 +34,7 @@ const places = () => {
       try {
         let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
         let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
+        console.log('Place url = '+"http://best-place.online:8080"+urlEnd)
         const response = await fetch("http://best-place.online:8080"+urlEnd, {
           method: 'GET',
           headers: {
@@ -40,49 +43,55 @@ const places = () => {
         });
         const data = await response.json();
         setPlace(data);
+        console.log(place)
       } catch (e) {
         setPlace([]);
+        console.log('error')
         setError((e as Error).message);
+        
       }
       finally{
         setLoading(false);
         setRefreshing(false);
+        console.log('finally')
       }      
     }
 
     fetchData();
-  }, [CountryId, seacrchPlace]);
+  }, [CountryId, seacrchPlace, refreshing]);
 
   if (loading) {
     strArray = ['Loading...']
+     console.log('Loading')
   }
   else if (error) {
+    console.log('error')
     strArray = ['Error...'+error]
   }
-  else{
-   strArray = ["No Places Found", "No places found for this search query"] 
+   else if(place.length == 0){
+     console.log('No Places Found')
+    strArray = ["No Places Found", "No places found for this search query"] 
   }
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>    
-        <Text>{country? country :'test country '}</Text>
-        {refreshing && <Text>Refresh: {refreshing? 'true': 'false'}</Text>}
+      <SafeAreaView style={styles.container}>
+        {country && <Text>{country}</Text>}
+        {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
+        <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace}/>
+        {/* <View style={styles.search}>
+          <TextInput style={styles.search_input} onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." placeholderTextColor={Colors.text} value={seacrchPlace} />
+        </View> */}
         <FlatList
           data={place}
           keyExtractor={item => item.id}
           renderItem={({item}) => <PlaceItem 
-            name = {item.name} 
+            name = {item.name? item.name: 'test'} 
             country = {country? country :'test'} 
-            description={item.description}
-            url={item.url[0]}
+            description={item.description? item.description:'description'}
+            url= {item.url}
             onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
-          />} 
-          ListHeaderComponent={() => (
-            <View style={styles.search}>
-              <TextInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
-            </View>
-          )}    
+          />}    
           ListEmptyComponent={() => (
             <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
            )}
@@ -100,10 +109,8 @@ export default places
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: 'white',
+    backgroundColor: Colors.background,
     alignContent:'center',
-    alignItems:'center'
   },
   item: {
     backgroundColor: 'white',
@@ -112,7 +119,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 10,
     marginHorizontal: 20,
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems:'center'    
   },
   title: {
@@ -121,6 +128,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 16,
+    color: Colors.text
   },
   tinyLogo: {
     resizeMode: 'cover',
@@ -128,12 +136,18 @@ const styles = StyleSheet.create({
     height: 200,
   },
   search:{
-    backgroundColor:'white',
-    borderRadius:20,
-    marginVertical: 15,
+    backgroundColor:Colors.background_input,
+    borderRadius:15,
+    margin: 10,
+    height: 60,
     padding:5,
-    width:'90%',
     borderColor:'#63B4FF',
-    borderWidth:2
+    borderWidth:2,
+    alignItems:'center'
+  },
+  search_input:{
+    flex:1,
+    textDecorationColor:'white',
+    color:'white'
   },
 });

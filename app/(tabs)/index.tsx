@@ -6,6 +6,10 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import CountryItem  from '@/app/components/CountryItem';
 import { TCountry } from '../constants/types';
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
+import SearchInput from '../components/SearchInput';
+import Colors from '@/assets/Colors';
+
+
 //import {getCountries} from '@/app/api/api'
 
 
@@ -63,10 +67,14 @@ export default function Index() {
 
 
   return (
-  <SafeAreaProvider>
-    <SafeAreaView style={styles.container}>
-      {refreshing && <Text>Refresh: {refreshing? 'true': 'false'}</Text>}
-      <FlatList style = {styles.list}
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        {refreshing && <Text style={{ color: Colors.text }}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
+        <SearchInput onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." value={searchCountry}/>
+        {/* <View style={styles.search}>
+          <TextInput style={styles.search_input} onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." placeholderTextColor={Colors.text} value={searchCountry} />
+        </View> */}
+        <FlatList style={styles.list}
         data={countries}
         keyExtractor={item => item.id}
         renderItem={({item}) => <CountryItem 
@@ -77,12 +85,7 @@ export default function Index() {
             description={item.description}
             url={item.url}
             onPress = {() => router.push({pathname: '/place',params: { CountryId: item.id, country: item.name, otherParam: 'anything you want here' }})}
-          />}  
-          ListHeaderComponent={() => (
-            <View style={styles.search}>
-              <TextInput  style={styles.search_input} onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." value={searchCountry} />
-            </View>
-          )}              
+          />}              
         ListEmptyComponent={() => (
            <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
           )}
@@ -98,24 +101,24 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: '#1b1725',
+    backgroundColor: Colors.background,
     alignContent:'center',
   },
   search:{
-    backgroundColor:'white',
-    borderRadius:20,
-    margin: 20,
+    backgroundColor:Colors.background_input,
+    borderRadius:15,
+    margin: 10,
+    height: 60,
     padding:5,
-    flex:1,
     borderColor:'#63B4FF',
     borderWidth:2,
-    alignItems:'center'
   },
   search_input:{
-    width:'100%',
-    height:'100%'
+    flex:1,
+    textDecorationColor:'white',
+    color:'white'
   },
+
   list:{
     flex:1,
     alignContent:'center', 

@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { TPlace, TCountry } from "./constants/types";
+import Colors from '@/assets/Colors';
 // // Keep the splash screen visible while we fetch resources
 // SplashScreen.preventAutoHideAsync();
 
@@ -53,10 +54,10 @@ const placeCard = () => {
      <SafeAreaProvider>
        <SafeAreaView style={styles.container}>
          <View style={{ flexDirection: 'row' }}>
-           <Ionicons name='arrow-back' color="green" size={24} />
-           <Text>{place?.name}</Text>
+           <Ionicons name='arrow-back' color="white" size={24} />
+           <Text style={styles.text}>{place?.name}</Text>
            {/* <Text>placeID = {placeID}</Text> */}
-           <Ionicons name='star-sharp' color="green" size={24} />
+           <Ionicons name='star-sharp' color="white" size={24} />
          </View>
          <Carousel
            autoPlayInterval={2000}
@@ -78,17 +79,17 @@ const placeCard = () => {
            renderItem={renderItem({ rounded: true, source: place?.url })}
          />
          <View style={{ flexDirection: 'row' }}>
-           <Ionicons name="location-outline" size={24} color="green" />
-           <Text>Бали+, {place?.name}</Text>
+           <Ionicons name="location-outline" size={24} color="white" />
+           <Text style={styles.text}>{place?.name}</Text>
          </View>
          <View>
-           <Text>About place</Text>
-           <Text>{place?.description}</Text>
+           <Text style={styles.text}>About place</Text>
+           <Text style={styles.text}>{place?.description}</Text>
          </View>
          <View>
-           <Text>Location</Text>
+           <Text style={styles.text}>Location</Text>
 
-           <Text>Карта места</Text>
+           <Text style={styles.text}>Карта места</Text>
          </View>
        </SafeAreaView>
      </SafeAreaProvider> 
@@ -101,19 +102,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: 'white',
+    backgroundColor: Colors.background,
     alignContent:'center',
     alignItems:'center'
-  },
-  item: {
-    backgroundColor: 'white',
-    borderColor: 'whitesmoke',
-    borderWidth: 2,
-    padding: 20,
-    marginVertical: 10,
-    marginHorizontal: 20,
-    borderRadius: 20,
-    alignItems:'center'    
   },
   title: {
     fontSize: 32,
@@ -121,6 +112,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 16,
+    color:Colors.text
   },
   tinyLogo: {
     resizeMode: 'cover',

@@ -1,17 +1,18 @@
 import React from 'react'
 import {  StyleSheet, Text, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Colors from '@/assets/Colors';
 
 const settings = () => {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{flex:1, backgroundColor:'#1b1725', padding:10}}>
+      <SafeAreaView style={styles.container}>
         <View style = {{alignItems:'center'}}>
-          <Text style = {{color:'#4894FE', fontSize:22}}>Setting</Text>
+          <Text style = {styles.textHeader}>Setting</Text>
         </View>
         <View style = {{flexDirection:'row', justifyContent:'space-between'}}>
-          <Text style = {{color:'white'}}>Language</Text>
-          <Text style = {{color:'white'}}>En</Text>
+          <Text style = {styles.text}>Language</Text>
+          <Text style = {styles.text}>En</Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -23,9 +24,12 @@ export default settings
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.background,
     alignContent:'center',
-    alignItems:'center',
-    
+    padding:10
   },
+  text:{
+    color:Colors.text
+  },
+  textHeader:{color:Colors.textHeader, fontSize:22}
 });

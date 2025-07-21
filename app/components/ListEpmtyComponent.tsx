@@ -10,8 +10,8 @@ const ListEpmtyComponent = ({ strArray, style }: TListEpmtyProps) => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={style}>
-        <View>
-          {strArray?.map((value: string, index: number) => <Text key={index}>{value}</Text>)}
+        <View style={{alignContent:'center'}}>
+          {strArray?.map((value: string, index: number) => <Text style={{color:'white', justifyContent:'center', alignContent:'center'}} key={index}>{value}</Text>)}
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
