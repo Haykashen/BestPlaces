@@ -79,9 +79,6 @@ const places = () => {
         {country && <Text>{country}</Text>}
         {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
         <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace}/>
-        {/* <View style={styles.search}>
-          <TextInput style={styles.search_input} onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." placeholderTextColor={Colors.text} value={seacrchPlace} />
-        </View> */}
         <FlatList
           data={place}
           keyExtractor={item => item.id}
@@ -109,11 +106,11 @@ export default places
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.bg_Primary,
     alignContent:'center',
   },
   item: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.text_Secondary,
     borderColor: 'whitesmoke',
     borderWidth: 2,
     padding: 20,
@@ -128,26 +125,11 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 16,
-    color: Colors.text
+    color: Colors.text_Secondary
   },
   tinyLogo: {
     resizeMode: 'cover',
     width: '100%',
     height: 200,
-  },
-  search:{
-    backgroundColor:Colors.background_input,
-    borderRadius:15,
-    margin: 10,
-    height: 60,
-    padding:5,
-    borderColor:'#63B4FF',
-    borderWidth:2,
-    alignItems:'center'
-  },
-  search_input:{
-    flex:1,
-    textDecorationColor:'white',
-    color:'white'
   },
 });

@@ -69,11 +69,8 @@ export default function Index() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        {refreshing && <Text style={{ color: Colors.text }}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
+        {refreshing && <Text style={{ color: Colors.text_Secondary }}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
         <SearchInput onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." value={searchCountry}/>
-        {/* <View style={styles.search}>
-          <TextInput style={styles.search_input} onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." placeholderTextColor={Colors.text} value={searchCountry} />
-        </View> */}
         <FlatList style={styles.list}
         data={countries}
         keyExtractor={item => item.id}
@@ -101,24 +98,9 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.bg_Primary,
     alignContent:'center',
   },
-  search:{
-    backgroundColor:Colors.background_input,
-    borderRadius:15,
-    margin: 10,
-    height: 60,
-    padding:5,
-    borderColor:'#63B4FF',
-    borderWidth:2,
-  },
-  search_input:{
-    flex:1,
-    textDecorationColor:'white',
-    color:'white'
-  },
-
   list:{
     flex:1,
     alignContent:'center', 

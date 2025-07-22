@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.bg_Primary,
     alignContent:'center',
     alignItems:'center'
   },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 16,
-    color:Colors.text
+    color:Colors.text_Secondary
   },
   tinyLogo: {
     resizeMode: 'cover',
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     padding:5,
     width:'90%',
-    borderColor:'#63B4FF',
+    borderColor:Colors.text_Primary,
     borderWidth:2
   },
 });

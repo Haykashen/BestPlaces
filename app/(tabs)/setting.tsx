@@ -24,12 +24,12 @@ export default settings
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.bg_Primary,
     alignContent:'center',
     padding:10
   },
   text:{
-    color:Colors.text
+    color:Colors.text_Secondary
   },
-  textHeader:{color:Colors.textHeader, fontSize:22}
+  textHeader:{color:Colors.text_Primary, fontSize:22}
 });

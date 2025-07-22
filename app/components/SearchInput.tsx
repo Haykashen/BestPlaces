@@ -7,7 +7,7 @@ const SearchInput = (props: TextInputProps) => {
         <View style={styles.search}>
             <TextInput 
               style={styles.search_input} 
-              placeholderTextColor={Colors.text} 
+              placeholderTextColor={Colors.text_Secondary} 
               {...props}
             />
         </View>
@@ -19,16 +19,16 @@ export default SearchInput
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.background,
+        backgroundColor: Colors.bg_Primary,
         alignContent: 'center',
     },
     search: {
-        backgroundColor: Colors.background_input,
+        backgroundColor: Colors.bg_input,
         borderRadius: 15,
         margin: 10,
         height: 60,
         padding: 5,
-        borderColor: '#63B4FF',
+        borderColor: Colors.text_Primary,
         borderWidth: 2,
     },
     search_input: {
