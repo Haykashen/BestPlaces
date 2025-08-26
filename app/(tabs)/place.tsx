@@ -11,12 +11,7 @@ import SearchInput from '../components/SearchInput';
 
 const places = () => {
   const { otherParam, CountryId, country } = useLocalSearchParams();
-  const [place, setPlace] = useState<TPlace[]>([
-    {"id":"3","name":"Перекрёсток Сибуя","description":"Самый оживлённый пешеходный переход в мире в Токио.",
-      "longitude":"139.7002","latitude":"35.6595","country":{"id":"1","name":"Япония","capital":"Токио","language":"Японский",
-      "currency":"JPY","description":"Страна контрастов, где древние традиции сочетаются с футуристическими инновациями.",
-      "url":"https://images.unsplash.com/photo-1528164344705-47542687000d?q=80\u0026w=2692\u0026auto=format\u0026fit=crop\u0026ixlib=rb-4.1.0\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"},
-      "url":["https://images.unsplash.com/photo-1528164344705-47542687000d?q=80\u0026w=2692\u0026auto=format\u0026fit=crop\u0026ixlib=rb-4.1.0\u0026ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"]}])
+  const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -34,8 +29,11 @@ const places = () => {
       try {
         let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
         let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
-        console.log('Place url = '+"http://best-place.online:8080"+urlEnd)
-        const response = await fetch("http://best-place.online:8080"+urlEnd, {
+        console.log('Place url CountryId = '+CountryId)
+        let url = CountryId ? '&country='+CountryId:''
+        console.log('Place url  = '+'http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url)
+        //"http://best-place.online:8080"+urlEnd
+        const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -68,7 +66,7 @@ const places = () => {
     console.log('error')
     strArray = ['Error...'+error]
   }
-   else if(place.length == 0){
+   else if(place && place.length == 0){
      console.log('No Places Found')
     strArray = ["No Places Found", "No places found for this search query"] 
   }
@@ -84,7 +82,7 @@ const places = () => {
           keyExtractor={item => item.id}
           renderItem={({item}) => <PlaceItem 
             name = {item.name? item.name: 'test'} 
-            country = {country? country :'test'} 
+            country = {country? country :'country'} 
             description={item.description? item.description:'description'}
             url= {item.url}
             onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}

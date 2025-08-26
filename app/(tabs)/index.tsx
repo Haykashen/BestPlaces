@@ -15,7 +15,7 @@ import Colors from '@/assets/Colors';
 
 export default function Index() {
   
-  const [countries, setCountries] = useState<TCountry[]>([{id:'test', capital:'test', currency:'test', name:'test', description:'test', language:'asa', url:'sdsdsd'}]);
+  const [countries, setCountries] = useState<TCountry[]>([{id:'test', capital:'test', currency:'test', name:'test', description:'test', language:'asa', url:'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/34/e8/75/caption.jpg?w=1200'}]);
   const [searchCountry, setSearchCountry] =  useState('');
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -30,8 +30,9 @@ export default function Index() {
   useEffect(() => {
     async function fetchData() {
       try {
-        let baseURL = "http://best-place.online:8080/countries";
+        let baseURL = "http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetCountries";//http://best-place.online:8080/countries
         let url = searchCountry? baseURL+'/search?q='+searchCountry+'&limit=5': baseURL; 
+        console.log(url)
         const response = await fetch(url, {
           method: 'GET',
           headers: {
@@ -44,11 +45,12 @@ export default function Index() {
       } catch (e) {
         setCountries([]);
         setError((e as Error).message);
-        
+        console.log('countries'+JSON.stringify(countries))
       }
       finally{
         setLoading(false);
         setRefreshing(false);
+        console.log('countries2'+JSON.stringify(countries))
       }
     }
 

@@ -8,7 +8,7 @@ const favorite = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View>
-          <Text style={{color:Colors.text}}>Favorite</Text>
+          <Text style={{color:Colors.text_Primary}}>Favorite</Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.bg_Primary,
     alignContent:'center',
   },
   search:{
