@@ -15,7 +15,7 @@ import Colors from '@/assets/Colors';
 
 export default function Index() {
   
-  const [countries, setCountries] = useState<TCountry[]>([{id:'test', capital:'test', currency:'test', name:'test', description:'test', language:'asa', url:'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/34/e8/75/caption.jpg?w=1200'}]);
+  const [countries, setCountries] = useState<TCountry[]>([]);
   const [searchCountry, setSearchCountry] =  useState('');
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -30,10 +30,11 @@ export default function Index() {
   useEffect(() => {
     async function fetchData() {
       try {
-        let baseURL = "http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetCountries";//http://best-place.online:8080/countries
-        let url = searchCountry? baseURL+'/search?q='+searchCountry+'&limit=5': baseURL; 
-        console.log(url)
-        const response = await fetch(url, {
+        let baseURL = "http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetCountry";//http://best-place.online:8080/countries
+        //let url = searchCountry? baseURL+'/search?q='+searchCountry+'&limit=5': baseURL; 
+        let seacrch = searchCountry ? '&search='+searchCountry:'';
+        console.log(baseURL+seacrch)
+        const response = await fetch(baseURL+seacrch, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

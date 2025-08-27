@@ -10,10 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "icon":{
-         "dark": "./assets/icons/app/ios-dark.png",
-         "light": "./assets/icons/app/ios-light.png",
-         "tinted": "./assets/icons/app/ios-tinted.png"
+      "icon": {
+        "dark": "./assets/icons/app/ios-dark.png",
+        "light": "./assets/icons/app/ios-light.png",
+        "tinted": "./assets/icons/app/ios-tinted.png"
       }
     },
     "android": {
@@ -41,9 +41,10 @@
           "dark": {
             "image": "./assets/icons/app/splash-icon-light.png",
             "backgroundColor": "#000000"
-          }          
+          }
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

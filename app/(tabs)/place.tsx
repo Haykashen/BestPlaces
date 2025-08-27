@@ -27,13 +27,14 @@ const places = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
-        let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
+        //let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
+        //let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
         console.log('Place url CountryId = '+CountryId)
-        let url = CountryId ? '&country='+CountryId:''
-        console.log('Place url  = '+'http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url)
+        let seacrch2 = seacrchPlace ? '&search='+seacrchPlace:'';
+        let url = CountryId ? '&country='+CountryId:'';
+        console.log('Place url  = '+'http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url+seacrch2)
         //"http://best-place.online:8080"+urlEnd
-        const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url, {
+        const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url+seacrch2, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
