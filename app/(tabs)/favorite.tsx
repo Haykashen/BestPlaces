@@ -7,8 +7,8 @@ const favorite = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <View>
-          <Text style={{color:Colors.text_Primary}}>Favorite</Text>
+        <View style = {{alignItems:'center'}}>
+          <Text style = {styles.textHeader}>Favorite</Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -20,9 +20,9 @@ export default favorite
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: Colors.bg_Primary,
     alignContent:'center',
+    padding:10
   },
   search:{
     backgroundColor:'white',
@@ -41,5 +41,9 @@ const styles = StyleSheet.create({
   list:{
     flex:1,
     alignContent:'center', 
+  },
+  textHeader:{
+    color:Colors.text_Secondary, 
+    fontSize:22
   }
 });

@@ -1,4 +1,3 @@
-import { PURPLE_IMAGES } from "../constants/purple-images";
 import React, { useMemo } from "react";
 import {
   ImageSourcePropType,
@@ -16,14 +15,14 @@ interface Props extends AnimatedProps<ViewProps> {
   style?: StyleProp<ImageStyle>;
   index?: number;
   rounded?: boolean;
-  source?: string[];
+  source: string[];
 }
 
 export const SlideItem: React.FC<Props> = (props) => {
   const { style, index = 0, rounded = false, testID, ...animatedViewProps } = props;
 
   const source = useMemo(
-    () => props.source || PURPLE_IMAGES[index % PURPLE_IMAGES.length],
+    () => props.source[index % props.source.length],
     [index, props.source]
   );
 

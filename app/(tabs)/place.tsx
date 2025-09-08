@@ -72,6 +72,26 @@ const places = () => {
     strArray = ["No Places Found", "No places found for this search query"] 
   }
 
+  const setFavorite = async(placeId:string, favorite:boolean)=>{
+
+    let urlFavorite = 'http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=SetFavoritePlace'+'&favorite='+placeId+'&link='+!favorite;
+    console.log('urlFavorite ='+urlFavorite)
+
+    try{
+        const response = await fetch(urlFavorite, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    }
+    catch(e){
+      console.log('urlFavorite catch(e)')
+    }finally{
+      setRefreshing(true);  
+    }
+  }
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -85,12 +105,14 @@ const places = () => {
             name = {item.name? item.name: 'test'} 
             country = {country? country :'country'} 
             description={item.description? item.description:'description'}
+            favorite = {item.favorite}
             url= {item.url}
             onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
+            onLongPress={()=> setFavorite(item.id, item.favorite)}
           />}    
           ListEmptyComponent={() => (
             <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
-           )}
+          )}
          refreshControl={
            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
          }                           

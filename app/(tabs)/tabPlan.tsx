@@ -3,20 +3,16 @@ import {  StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@/assets/Colors';
 
-const settings = () => {
+const tabPlan = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View style={{ alignItems: 'center' }}>
-          <Text style={styles.textHeader}>Setting</Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={styles.text}>Language</Text>
-          <Text style={styles.text}>En</Text>
+          <Text style={styles.textHeader}>Plan</Text>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity style={{ borderRadius: 15, borderStyle: 'solid', borderWidth: 2, borderColor: '#ff0000ff', paddingHorizontal:15, paddingVertical:10}}>
-            <Text style={styles.text}>Log out</Text>
+          <TouchableOpacity style={{ borderRadius: 15, borderStyle: 'solid', borderWidth: 2, borderColor: '#3141e8ff', paddingHorizontal:15, paddingVertical:10}}>
+            <Text style={styles.text}>addPlace</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -24,7 +20,7 @@ const settings = () => {
   )
 }
 
-export default settings
+export default tabPlan
 
 const styles = StyleSheet.create({
   container: {

@@ -53,8 +53,16 @@ export default function RootLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'settings-sharp' : 'settings-outline'} color={color} size={24} />
           ),
-
-        }} />
+          }}
+        />
+        <Tabs.Screen name="plan" options={{
+          headerShown: false,
+          title: 'Plan',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'settings-sharp' : 'settings-outline'} color={color} size={24} />
+          ),
+          }} 
+        />
       </Tabs>
     </>
   ) 

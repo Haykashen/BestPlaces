@@ -20,7 +20,7 @@ import Colors from '@/assets/Colors';
 // });
 
 const placeCard = () => {
-  const [place, setPlace] = useState<TPlace>();
+  const [place, setPlace] = useState<TPlace>({id:'', name:'Bad network', description: 'Try refresh', longitude:'', latitude:'', url:[require("@/assets/images/errorImage.png")], favorite: false});
   const { otherParam, placeID } = useLocalSearchParams();
   const progress = useSharedValue<number>(0);
   const [cardIsReady, setCardIsReady] = useState(false);
@@ -28,19 +28,28 @@ const placeCard = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://best-place.online:8080/places/" + placeID, {
+        //"http://best-place.online:8080/places/" + placeID
+        console.log('placeCard http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID)
+        const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
         const data = await response.json();
-        setPlace(data);
+        console.log('data = '+JSON.stringify(data))
+        setPlace(data[0]);
         setCardIsReady(true)
+
+        console.log('place = '+JSON.stringify(place))
         // setLoading(false);
-      } catch (error) {
+      } catch (e) {
         // setError(JSON.stringify(error));
         // setLoading(false);
+        console.log((e as Error).message)
+      }
+      finally{
+        console.log('finally')
       }
     }
 
@@ -53,15 +62,14 @@ const placeCard = () => {
    return (
      <SafeAreaProvider>
        <SafeAreaView style={styles.container}>
-         <View style={{ flexDirection: 'row' }}>
+         <View style={{ flexDirection: 'row',  justifyContent:'space-between', width:'100%', paddingHorizontal:10 }}>
            <Ionicons name='arrow-back' color="white" size={24} />
-           <Text style={styles.text}>{place?.name}</Text>
-           {/* <Text>placeID = {placeID}</Text> */}
+           <Text style={styles.textHeader}>{place?.name}</Text>
            <Ionicons name='star-sharp' color="white" size={24} />
          </View>
          <Carousel
            autoPlayInterval={2000}
-           data={place?.url ? place.url : []}
+           data={place.url}
            height={258}
            loop={true}
            pagingEnabled={true}
@@ -76,7 +84,7 @@ const placeCard = () => {
              parallaxScrollingOffset: 50,
            }}
            onProgressChange={progress}
-           renderItem={renderItem({ rounded: true, source: place?.url })}
+           renderItem={renderItem({ rounded: true, source: place.url })}
          />
          <View style={{ flexDirection: 'row' }}>
            <Ionicons name="location-outline" size={24} color="white" />
@@ -101,9 +109,9 @@ export default placeCard
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: Colors.bg_Primary,
     alignContent:'center',
+    padding:10,
     alignItems:'center'
   },
   title: {
@@ -128,4 +136,8 @@ const styles = StyleSheet.create({
     borderColor:Colors.text_Primary,
     borderWidth:2
   },
+  textHeader:{
+    color:Colors.text_Secondary, 
+    fontSize:22
+  }
 });
