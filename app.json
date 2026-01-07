@@ -48,6 +48,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7be5472b-368c-4a0f-bee2-0bdc65bb0b6b"
+      }
+    },
+    "owner": "aratta"
   }
 }
