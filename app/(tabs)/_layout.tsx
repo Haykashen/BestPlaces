@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 //import { Image } from "react-native"; (({focused, color, size})=><Image source={require('@expo/snack-static/react-native-logo.png')}/>)
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { View } from "react-native";
 //'#63B4FF'
 export default function RootLayout() {
   return (
@@ -25,21 +26,21 @@ export default function RootLayout() {
             color: 'white'
           }
         }} />
-        <Tabs.Screen name="place" options={{
+        <Tabs.Screen name="tabPlace" options={{
           headerShown: false,
           title: 'Place',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'location-sharp' : 'location-outline'} color={color} size={24} />
           ),
           href:{
-            pathname:'/(tabs)/place',
+            pathname:'/(tabs)/tabPlace',
             params:{
                CountryId: ''                     
             }
           }
         }
         } />
-        <Tabs.Screen name="favorite" options={{
+        <Tabs.Screen name="tabFavorite" options={{
           headerShown: false,
           title: 'Favorite',
           tabBarIcon: ({ color, focused }) => (
@@ -47,21 +48,13 @@ export default function RootLayout() {
           ),
 
         }} />
-        <Tabs.Screen name="setting" options={{
+        <Tabs.Screen name="tabSetting" options={{
           headerShown: false,
           title: 'Setting',
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'settings-sharp' : 'settings-outline'} color={color} size={24} />
           ),
           }}
-        />
-        <Tabs.Screen name="plan" options={{
-          headerShown: false,
-          title: 'Plan',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'settings-sharp' : 'settings-outline'} color={color} size={24} />
-          ),
-          }} 
         />
       </Tabs>
     </>

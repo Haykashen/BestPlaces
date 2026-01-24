@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { TCountryItemProps } from '../constants/types';
+import { TCountryItemProps } from '../../constants/types';
 
 const CountryItem = ({name, capital, currency, language, description, url, onPress}: TCountryItemProps) => (
   <TouchableOpacity style={styles.item} onPress={onPress}>

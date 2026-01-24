@@ -1,5 +1,5 @@
-import { window } from "./constants/sizes";
-import { renderItem } from "./utils/render-item";
+import { window } from "../../constants/sizes";
+import { renderItem } from "../../utils/render-item";
 import { useState, useEffect } from "react";
 import { StatusBar, StyleSheet, View, Text, ImageURISource  } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -8,7 +8,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
-import { TPlace, TCountry } from "./constants/types";
+import { TPlace, TCountry } from "../../constants/types";
 import Colors from '@/assets/Colors';
 // // Keep the splash screen visible while we fetch resources
 // SplashScreen.preventAutoHideAsync();

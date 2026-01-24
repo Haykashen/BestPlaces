@@ -1,4 +1,4 @@
- import { SlideItem } from "../components/SlideItem";
+ import { SlideItem } from "../components/items/SlideItem";
  import { ImageStyle, StyleProp } from "react-native";
  import { CarouselRenderItem } from "react-native-reanimated-carousel";
 

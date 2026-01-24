@@ -14,6 +14,10 @@
         "dark": "./assets/icons/app/ios-dark.png",
         "light": "./assets/icons/app/ios-light.png",
         "tinted": "./assets/icons/app/ios-tinted.png"
+      },
+      "bundleIdentifier": "com.aratta.BestPlaces",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -22,7 +26,8 @@
         "monochromeImage": "./assets/icons/app/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.aratta.BestPlaces"
     },
     "web": {
       "bundler": "metro",

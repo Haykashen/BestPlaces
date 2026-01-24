@@ -1,9 +1,9 @@
-import { useRouter } from 'expo-router';
+import { RelativePathString, useRouter } from 'expo-router';
 import { useState, useEffect } from "react";
 import { StatusBar, StyleSheet, TextInput, View, Text, FlatList, RefreshControl } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from "expo-router";
-import PlaceItem from '../components/PlaceItem';
+import PlaceItem from '../components/items/PlaceItem';
 import { TPlace, TCountry } from "../constants/types";
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
 import Colors from '@/assets/Colors';
@@ -92,6 +92,11 @@ const places = () => {
     }
   }
 
+  const handlePress = (id:string)=>{
+/*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/  
+    router.push(('/components/cards/'+id) as RelativePathString)
+  }
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -107,7 +112,7 @@ const places = () => {
             description={item.description? item.description:'description'}
             favorite = {item.favorite}
             url= {item.url}
-            onPress = {() => router.push({pathname: '/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})}
+            onPress = {() => handlePress(item.id)}
             onLongPress={()=> setFavorite(item.id, item.favorite)}
           />}    
           ListEmptyComponent={() => (
