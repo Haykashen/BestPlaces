@@ -1,5 +1,5 @@
 import { window } from "../../constants/sizes";
-import { renderItem } from "../../utils/render-item";
+import renderItem from "../../utils/render-item";
 import { useState, useEffect } from "react";
 import { StatusBar, StyleSheet, View, Text, ImageURISource  } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -25,11 +25,13 @@ const placeCard = () => {
   const progress = useSharedValue<number>(0);
   const [cardIsReady, setCardIsReady] = useState(false);
 
+  console.log('placeCard http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID)
+
   useEffect(() => {
     async function fetchData() {
       try {
         //"http://best-place.online:8080/places/" + placeID
-        console.log('placeCard http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID)
+        console.log('placeCard2 http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID)
         const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID, {
           method: 'GET',
           headers: {
@@ -63,11 +65,11 @@ const placeCard = () => {
      <SafeAreaProvider>
        <SafeAreaView style={styles.container}>
          <View style={{ flexDirection: 'row',  justifyContent:'space-between', width:'100%', paddingHorizontal:10 }}>
-           <Ionicons name='arrow-back' color="white" size={24} />
+           <Ionicons name='arrow-back' color="white" size={24} onPress={()=> router.back()}/>
            <Text style={styles.textHeader}>{place?.name}</Text>
            <Ionicons name='star-sharp' color="white" size={24} />
          </View>
-         <Carousel
+         {cardIsReady && <Carousel
            autoPlayInterval={2000}
            data={place.url}
            height={258}
@@ -85,7 +87,7 @@ const placeCard = () => {
            }}
            onProgressChange={progress}
            renderItem={renderItem({ rounded: true, source: place.url })}
-         />
+         />}
          <View style={{ flexDirection: 'row' }}>
            <Ionicons name="location-outline" size={24} color="white" />
            <Text style={styles.text}>{place?.name}</Text>

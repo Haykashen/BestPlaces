@@ -18,19 +18,20 @@ interface Props extends AnimatedProps<ViewProps> {
   source: string[];
 }
 
-export const SlideItem: React.FC<Props> = (props) => {
+const SlideItem: React.FC<Props> = (props) => {
   const { style, index = 0, rounded = false, testID, ...animatedViewProps } = props;
 
-  const source = useMemo(
+const source = useMemo(
     () => props.source[index % props.source.length],
     [index, props.source]
   );
-
+  //{{uri: source[index]}}
+  let urlNew = "data:image/png;base64,"+source;
   return (
     <Animated.View testID={testID} style={{ flex: 1 }} {...animatedViewProps}>
       <Animated.Image
         style={[style, styles.container, rounded && { borderRadius: 15 }]}
-        source={{uri: source[index]}}
+        source={urlNew as ImageSourcePropType}
         resizeMode="cover"
       />
       <View style={styles.overlay}>
@@ -41,7 +42,7 @@ export const SlideItem: React.FC<Props> = (props) => {
     </Animated.View>
   );
 };
-
+export default SlideItem;
 const styles = StyleSheet.create({
   container: {
     width: "100%",

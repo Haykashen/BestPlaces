@@ -1,18 +1,21 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View, ImageBackground } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View, ImageBackground, ImageSourcePropType } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { TPlaceItemProps } from '../constants/types';
+import { TPlaceItemProps } from '../../constants/types';
 import Colors from '@/assets/Colors';
 import { BlurView } from 'expo-blur';
 
 const PlaceItem = ({ name, country, description, url, favorite, onPress,onLongPress }: TPlaceItemProps) => {
   console.log('PlaceItem url = ' + url)
-  const defaultURL = 'https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=2692&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
-  if (!url)
-    url = [defaultURL]
+  // const defaultURL = 'https://images.unsplash.com/photo-1528164344705-47542687000d?q=80&w=2692&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+  // if (!url)
+  //   url = [defaultURL]
+  //source={{ uri: url[0] ? url[0] : defaultURL, }} 
+  let urlNew = "data:image/png;base64,"+url[0];
+  
   return (
     <TouchableOpacity style={[styles.item, favorite?styles.favorite_item_border:{}]} onPress={onPress} onLongPress={onLongPress}>
-      <ImageBackground style={styles.image} source={{ uri: url[0] ? url[0] : defaultURL, }}>
+      <ImageBackground style={styles.image} source={urlNew as ImageSourcePropType}>
         <BlurView intensity={60} tint="light" style={styles.image_view}>
           <Text style={styles.image_text}>{name}</Text>
         </BlurView>
