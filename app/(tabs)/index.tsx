@@ -8,7 +8,7 @@ import { TCountry } from '../constants/types';
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
 import SearchInput from '../components/SearchInput';
 import Colors from '@/assets/Colors';
-
+import { URL } from '../constants/constants';
 
 //import {getCountries} from '@/app/api/api'
 
@@ -30,7 +30,7 @@ export default function Index() {
   useEffect(() => {
     async function fetchData() {
       try {
-        let baseURL = "http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetCountry";//http://best-place.online:8080/countries
+        let baseURL = URL+"?funName=GetCountry";//http://best-place.online:8080/countries
         //let url = searchCountry? baseURL+'/search?q='+searchCountry+'&limit=5': baseURL; 
         let seacrch = searchCountry ? '&search='+searchCountry:'';
         console.log(baseURL+seacrch)

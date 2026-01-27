@@ -9,6 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { TPlace, TCountry } from "../../constants/types";
+import { URL } from '../../constants/constants';
 import Colors from '@/assets/Colors';
 // // Keep the splash screen visible while we fetch resources
 // SplashScreen.preventAutoHideAsync();
@@ -32,7 +33,7 @@ const placeCard = () => {
       try {
         //"http://best-place.online:8080/places/" + placeID
         console.log('placeCard2 http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID)
-        const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+'&placeID='+placeID, {
+        const response = await fetch(URL+'?funName=GetPlace'+'&placeID='+placeID, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

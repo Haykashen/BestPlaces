@@ -4,10 +4,11 @@ import { StatusBar, StyleSheet, TextInput, View, Text, FlatList, RefreshControl 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from "expo-router";
 import PlaceItem from '../components/items/PlaceItem';
-import { TPlace, TCountry } from "../constants/types";
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
-import Colors from '@/assets/Colors';
 import SearchInput from '../components/SearchInput';
+import { TPlace, TCountry } from "../constants/types";
+import Colors from '@/assets/Colors';
+import { URL } from '../constants/constants';
 
 const places = () => {
   const { otherParam, CountryId, country } = useLocalSearchParams();
@@ -30,11 +31,11 @@ const places = () => {
         //let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
         //let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
         console.log('Place url CountryId = '+CountryId)
-        let seacrch2 = seacrchPlace ? '&search='+seacrchPlace:'';
-        let url = CountryId ? '&country='+CountryId:'';
-        console.log('Place url  = '+'http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url+seacrch2)
+        let seacrch = seacrchPlace ? '&search='+seacrchPlace:'';
+        let countryId = CountryId ? '&country='+CountryId:'';
+        console.log('Place url  = '+URL+'?funName=GetPlace'+countryId+seacrch)
         //"http://best-place.online:8080"+urlEnd
-        const response = await fetch('http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=GetPlace'+url+seacrch2, {
+        const response = await fetch(URL+'?funName=GetPlace'+countryId+seacrch, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ const places = () => {
 
   const setFavorite = async(placeId:string, favorite:boolean)=>{
 
-    let urlFavorite = 'http://vc.inform.ivanovo.ru:9105/node/70401024379406?funName=SetFavoritePlace'+'&favorite='+placeId+'&link='+!favorite;
+    let urlFavorite = URL+'?funName=SetFavoritePlace'+'&favorite='+placeId+'&link='+!favorite;
     console.log('urlFavorite ='+urlFavorite)
 
     try{

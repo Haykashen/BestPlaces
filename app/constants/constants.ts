@@ -1,0 +1,1 @@
+export const URL = 'http://vc.inform.ivanovo.ru:9105/node/70401024379406';
