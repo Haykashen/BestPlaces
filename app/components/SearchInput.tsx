@@ -17,11 +17,6 @@ const SearchInput = (props: TextInputProps) => {
 export default SearchInput
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Colors.bg_Primary,
-        alignContent: 'center',
-    },
     search: {
         backgroundColor: Colors.bg_input,
         borderRadius: 15,
@@ -30,15 +25,12 @@ const styles = StyleSheet.create({
         padding: 5,
         borderColor: Colors.text_Primary,
         borderWidth: 2,
+        maxWidth:860,
+        minWidth:400
     },
     search_input: {
         flex: 1,
         textDecorationColor: 'white',
-        color: 'white'
-    },
-
-    list: {
-        flex: 1,
-        alignContent: 'center',
+        color: 'white',
     }
 });

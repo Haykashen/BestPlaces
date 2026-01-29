@@ -9,16 +9,15 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="dark" />
-
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: '#4894FE',
         }}>
         <Tabs.Screen name="index" options={{
           headerShown: false,
-          title: 'Country',
+          title: 'Place',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'map-sharp' : 'map-outline'} color={color} size={24} />
+            <Ionicons name={focused ? 'location-sharp' : 'location-outline'} color={color} size={24} />
           ),
           tabBarBadge: 2,
           tabBarBadgeStyle: {
@@ -26,20 +25,6 @@ export default function RootLayout() {
             color: 'white'
           }
         }} />
-        <Tabs.Screen name="tabPlace" options={{
-          headerShown: false,
-          title: 'Place',
-          tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? 'location-sharp' : 'location-outline'} color={color} size={24} />
-          ),
-          href:{
-            pathname:'/(tabs)/tabPlace',
-            params:{
-               CountryId: ''                     
-            }
-          }
-        }
-        } />
         <Tabs.Screen name="tabFavorite" options={{
           headerShown: false,
           title: 'Favorite',
@@ -61,3 +46,20 @@ export default function RootLayout() {
   ) 
     
 }
+
+
+        // <Tabs.Screen name="tabPlace" options={{
+        //   headerShown: false,
+        //   title: 'Place',
+        //   tabBarIcon: ({ color, focused }) => (
+        //     <Ionicons name={focused ? 'location-sharp' : 'location-outline'} color={color} size={24} />
+        //     <Ionicons name={focused ? 'map-sharp' : 'map-outline'} color={color} size={24} />
+        //   ),
+        //   href:{
+        //     pathname:'/(tabs)/tabPlace',
+        //     params:{
+        //        CountryId: ''                     
+        //     }
+        //   }
+        // }
+        // } />

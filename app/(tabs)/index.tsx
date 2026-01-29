@@ -1,26 +1,27 @@
 //import { CountryData } from '@/app/testData/Country';
-import {  RelativePathString, useRouter } from 'expo-router';
-import { useState, useEffect, ErrorInfo } from "react";
-import { FlatList, Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl } from "react-native";
+import {  RelativePathString, useRouter, router, useLocalSearchParams  } from 'expo-router';
+import { useState, useEffect} from "react";
+import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import CountryItem  from '@/app/components/items/CountryItem';
-import { TCountry } from '../constants/types';
-import ListEpmtyComponent from '../components/ListEpmtyComponent';
-import SearchInput from '../components/SearchInput';
-import Colors from '@/assets/Colors';
-import { URL } from '../constants/constants';
-
+import PlaceItem from '@/app/components/items/PlaceItem';
+import ListEpmtyComponent from '@/app/components/ListEpmtyComponent';
+import SearchInput from '@/app/components/SearchInput';
+import { URL } from '@/app/constants/constants';
+import { TPlace, TCountry } from "@/app/constants/types";
 //import {getCountries} from '@/app/api/api'
+import styles from '@/app/utils/style';
+
 
 
 export default function Index() {
-  
-  const [countries, setCountries] = useState<TCountry[]>([]);
-  const [searchCountry, setSearchCountry] =  useState('');
+  const { otherParam, CountryId, country } = useLocalSearchParams();
+  const [place, setPlace] = useState<TPlace[]>()
+  const [seacrchPlace, setSeacrchPlace] = useState('')
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+
   let strArray:string[] = [];
 
   const onRefresh = async () => {
@@ -30,85 +31,132 @@ export default function Index() {
   useEffect(() => {
     async function fetchData() {
       try {
-        let baseURL = URL+"?funName=GetCountry";//http://best-place.online:8080/countries
-        //let url = searchCountry? baseURL+'/search?q='+searchCountry+'&limit=5': baseURL; 
-        let seacrch = searchCountry ? '&search='+searchCountry:'';
-        console.log(baseURL+seacrch)
-        const response = await fetch(baseURL+seacrch, {
+        //let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
+        //let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
+        console.log('Place url CountryId = '+CountryId)
+        let seacrch = seacrchPlace ? '&search='+seacrchPlace:'';
+        let countryId = CountryId ? '&country='+CountryId:'';
+        console.log('Place url  = '+URL+'?funName=GetPlace'+countryId+seacrch)
+        //"http://best-place.online:8080"+urlEnd
+        const response = await fetch(URL+'?funName=GetPlace'+countryId+seacrch, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
         const data = await response.json();
-        setCountries(data);
-        
+        setPlace(data);
+        console.log(place)
       } catch (e) {
-        setCountries([]);
+        setPlace([]);
+        console.log('error')
         setError((e as Error).message);
-        console.log('countries'+JSON.stringify(countries))
+        
       }
       finally{
         setLoading(false);
         setRefreshing(false);
-        console.log('countries2'+JSON.stringify(countries))
-      }
+        console.log('finally')
+      }      
     }
 
     fetchData();
-  }, [searchCountry, refreshing]);
+  }, [CountryId, seacrchPlace, refreshing]);
 
-   if (loading) {
-     strArray = ['Loading...']
-   }
-   else if (error) {
-     strArray = ['Error...'+error]
-   }
-   else{
-     strArray = ["No Countries Found", "No countries found for this search query"] 
-   }
+  if (loading) {
+    strArray = ['Loading...']
+     console.log('Loading')
+  }
+  else if (error) {
+    console.log('error')
+    strArray = ['Error...'+error]
+  }
+   else if(place && place.length == 0){
+     console.log('No Places Found')
+    strArray = ["No Places Found", "No places found for this search query"] 
+  }
 
-  const handlePress = (id:string, name:string) =>{
-   // router.push(('../components/cards/'+id) as RelativePathString)
-    router.push({pathname:'/tabPlace',params: { CountryId: id, country: name, otherParam: 'anything you want here' }})
+  const setFavorite = async(placeId:string, favorite:boolean)=>{
+
+    let urlFavorite = URL+'?funName=SetFavoritePlace'+'&favorite='+placeId+'&link='+!favorite;
+    console.log('urlFavorite ='+urlFavorite)
+
+    try{
+        const response = await fetch(urlFavorite, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    }
+    catch(e){
+      console.log('urlFavorite catch(e)')
+    }finally{
+      setRefreshing(true);  
+    }
+  }
+
+  const handlePress = (id:string)=>{
+/*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/  
+    router.push(('/components/cards/'+id) as RelativePathString)
   }
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        {refreshing && <Text style={{ color: Colors.text_Secondary }}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
-        <SearchInput onChangeText={(text) => setSearchCountry(text)} placeholder="Search country ..." value={searchCountry} />
-        <FlatList style={styles.list}
-          data={countries}
+        {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
+        <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace}/>
+        
+        <FlatList
+          data={place}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => <CountryItem
-            name={item.name}
-            currency={item.currency}
-            capital={item.capital}
-            language={item.language}
-            description={item.description}
-            url={item.url}
-            onPress={() => handlePress(item.id, item.name)}
-          />}
+          renderItem={({item}) => <PlaceItem 
+            name = {item.name? item.name: 'test'} 
+            country = {country? country :'country'} 
+            description={item.description? item.description:'description'}
+            favorite = {item.favorite}
+            url= {item.url}
+            onPress = {() => handlePress(item.id)}
+            onLongPress={()=> setFavorite(item.id, item.favorite)}
+          />}    
           ListEmptyComponent={() => (
-            <ListEpmtyComponent strArray={strArray} style={styles.container} />
+            <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
           )}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
+         refreshControl={
+           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+         }                           
+      />           
       </SafeAreaView>
-    </SafeAreaProvider>    
+    </SafeAreaProvider> 
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bg_Primary,
-    alignContent:'center',
-  },
-  list:{
-    flex:1,
-    alignContent:'center', 
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: Colors.bg_Primary,
+
+//   },
+//   item: {
+//     backgroundColor: Colors.text_Secondary,
+//     borderColor: 'whitesmoke',
+//     borderWidth: 2,
+//     padding: 20,
+//     marginVertical: 10,
+//     marginHorizontal: 20,
+//     borderRadius: 15,
+//     alignItems:'center'    
+//   },
+//   title: {
+//     fontSize: 32,
+//     fontWeight:'bold'
+//   },
+//   text:{
+//     fontSize: 16,
+//     color: Colors.text_Secondary
+//   },
+//   tinyLogo: {
+//     resizeMode: 'cover',
+//     width: '100%',
+//     height: 200,
+//   },
+// });

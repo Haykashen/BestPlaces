@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 20,
     height: 300,
-    width: '90%'
+    maxWidth:860,
+    minWidth:400
   },
   favorite_item_border:{
     borderColor:'#ff0000ff',
