@@ -1,1 +1,1 @@
-export const URL = 'http://asmo:9105/node/70401024379406';//http://vc.inform.ivanovo.ru:9105/node/70401024379406
+export const URL = 'http://vc.inform.ivanovo.ru:9105/node/70401024379406';//http://asmo:9105/node/70401024379406

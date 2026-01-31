@@ -7,7 +7,7 @@ import PlaceItem from '@/app/components/items/PlaceItem';
 import ListEpmtyComponent from '@/app/components/ListEpmtyComponent';
 import SearchInput from '@/app/components/SearchInput';
 import { URL } from '@/app/constants/constants';
-import { TPlace, TCountry } from "@/app/constants/types";
+import { TPlace } from "@/app/constants/types";
 //import {getCountries} from '@/app/api/api'
 import styles from '@/app/utils/style';
 
@@ -104,16 +104,40 @@ export default function Index() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
-        <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace}/>
-        
+        <Text style={[styles.title, {color: 'white'}]}>Let’s Travel</Text>
+        <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace}/>
+        <Text style={styles.text}>Popular Experiences</Text>
+        <FlatList
+          horizontal={true}
+          data={place}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => <PlaceItem 
+            id={item.id}
+            name = {item.name} 
+            location = {item.location} 
+            favorite = {item.favorite}
+            about={item.about}
+            url= {item.url}
+            onPress = {() => handlePress(item.id)}
+            onLongPress={()=> setFavorite(item.id, item.favorite)}
+          />}    
+          ListEmptyComponent={() => (
+            <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
+          )}
+         refreshControl={
+           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+         }                           
+      />
+        <Text style={styles.text}>Nearest Places</Text>
         <FlatList
           data={place}
           keyExtractor={item => item.id}
           renderItem={({item}) => <PlaceItem 
+            id={item.id}
             name = {item.name? item.name: 'test'} 
-            country = {country? country :'country'} 
-            description={item.description? item.description:'description'}
+            location = {item.location} 
             favorite = {item.favorite}
+            about={item.about}
             url= {item.url}
             onPress = {() => handlePress(item.id)}
             onLongPress={()=> setFavorite(item.id, item.favorite)}
@@ -129,34 +153,3 @@ export default function Index() {
     </SafeAreaProvider> 
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: Colors.bg_Primary,
-
-//   },
-//   item: {
-//     backgroundColor: Colors.text_Secondary,
-//     borderColor: 'whitesmoke',
-//     borderWidth: 2,
-//     padding: 20,
-//     marginVertical: 10,
-//     marginHorizontal: 20,
-//     borderRadius: 15,
-//     alignItems:'center'    
-//   },
-//   title: {
-//     fontSize: 32,
-//     fontWeight:'bold'
-//   },
-//   text:{
-//     fontSize: 16,
-//     color: Colors.text_Secondary
-//   },
-//   tinyLogo: {
-//     resizeMode: 'cover',
-//     width: '100%',
-//     height: 200,
-//   },
-// });

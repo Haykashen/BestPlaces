@@ -1,7 +1,7 @@
 import React from 'react'
-import {  StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import Colors from '@/assets/Colors';
+import styles from '@/app/utils/style';
 
 const settings = () => {
   return (
@@ -26,18 +26,18 @@ const settings = () => {
 
 export default settings
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bg_Primary,
-    alignContent:'center',
-    padding:10
-  },
-  text:{
-    color:Colors.text_Secondary
-  },
-  textHeader:{
-    color:Colors.text_Secondary, 
-    fontSize:22
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: Colors.bg_Primary,
+//     alignContent:'center',
+//     padding:10
+//   },
+//   text:{
+//     color:Colors.text_Secondary
+//   },
+//   textHeader:{
+//     color:Colors.text_Secondary, 
+//     fontSize:22
+//   }
+// });

@@ -8,7 +8,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
-import { TPlace, TCountry } from "../../constants/types";
+import { TPlace} from "../../constants/types";
 import { URL } from '../../constants/constants';
 import Colors from '@/assets/Colors';
 // // Keep the splash screen visible while we fetch resources
@@ -21,7 +21,7 @@ import Colors from '@/assets/Colors';
 // });
 
 const placeCard = () => {
-  const [place, setPlace] = useState<TPlace>({id:'', name:'Bad network', description: 'Try refresh', longitude:'', latitude:'', url:[require("@/assets/images/errorImage.png")], favorite: false});
+  const [place, setPlace] = useState<TPlace>({id:'', name:'Bad network', about: 'Try refresh', longitude:'', latitude:'', url:[require("@/assets/images/errorImage.png")], favorite: false});
   const { otherParam, placeID } = useLocalSearchParams();
   const progress = useSharedValue<number>(0);
   const [cardIsReady, setCardIsReady] = useState(false);
@@ -95,7 +95,7 @@ const placeCard = () => {
          </View>
          <View>
            <Text style={styles.text}>About place</Text>
-           <Text style={styles.text}>{place?.description}</Text>
+           <Text style={styles.text}>{place?.about}</Text>
          </View>
          <View>
            <Text style={styles.text}>Location</Text>

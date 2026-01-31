@@ -4,7 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import PlaceItem from '../components/items/PlaceItem';
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
 import SearchInput from '../components/SearchInput';
-import { TPlace, TCountry } from "../constants/types";
+import { TPlace} from "../constants/types";
 import { RelativePathString, useRouter } from 'expo-router';
 import { URL } from '../constants/constants';
 import styles from '@/app/utils/style';
@@ -104,9 +104,10 @@ const favorite = () => {
             data={place}
             keyExtractor={item => item.id}
             renderItem={({ item }) => <PlaceItem
+              id={item.id}
               name={item.name ? item.name : 'test'}
-              country={'country'}
-              description={item.description ? item.description : 'description'}
+              location = {item.location} 
+              about={item.about}
               favorite={item.favorite}
               url={item.url}
               onPress={() => handlePress(item.id)}
