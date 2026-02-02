@@ -103,52 +103,54 @@ export default function Index() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
-        <Text style={[styles.title, {color: 'white'}]}>Let’s Travel</Text>
-        <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace}/>
-        <Text style={styles.text}>Popular Experiences</Text>
-        <FlatList
-          horizontal={true}
-          data={place}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => <PlaceItem 
-            id={item.id}
-            name = {item.name} 
-            location = {item.location} 
-            favorite = {item.favorite}
-            about={item.about}
-            url= {item.url}
-            onPress = {() => handlePress(item.id)}
-            onLongPress={()=> setFavorite(item.id, item.favorite)}
-          />}    
-          ListEmptyComponent={() => (
-            <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
-          )}
-         refreshControl={
-           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-         }                           
-      />
-        <Text style={styles.text}>Nearest Places</Text>
-        <FlatList
-          data={place}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => <PlaceItem 
-            id={item.id}
-            name = {item.name? item.name: 'test'} 
-            location = {item.location} 
-            favorite = {item.favorite}
-            about={item.about}
-            url= {item.url}
-            onPress = {() => handlePress(item.id)}
-            onLongPress={()=> setFavorite(item.id, item.favorite)}
-          />}    
-          ListEmptyComponent={() => (
-            <ListEpmtyComponent strArray={strArray} style={styles.container}/>  
-          )}
-         refreshControl={
-           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-         }                           
-      />           
+        <View style={{height:'auto', width:'80%', display:'flex', flexDirection:'column', margin:'10%'}}>
+          {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
+          <Text style={[styles.title, { color: 'white' }]}>Let’s Travel</Text>
+          <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace} />
+          <Text style={styles.text}>Popular Experiences</Text>
+          <FlatList
+            horizontal={true}
+            data={place}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => <PlaceItem
+              id={item.id}
+              name={item.name}
+              location={item.location}
+              favorite={item.favorite}
+              about={item.about}
+              url={item.url}
+              onPress={() => handlePress(item.id)}
+              onLongPress={() => setFavorite(item.id, item.favorite)}
+            />}
+            ListEmptyComponent={() => (
+              <ListEpmtyComponent strArray={strArray} style={styles.container} />
+            )}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+          <Text style={styles.text}>Nearest Places</Text>
+          <FlatList
+            data={place}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => <PlaceItem
+              id={item.id}
+              name={item.name ? item.name : 'test'}
+              location={item.location}
+              favorite={item.favorite}
+              about={item.about}
+              url={item.url}
+              onPress={() => handlePress(item.id)}
+              onLongPress={() => setFavorite(item.id, item.favorite)}
+            />}
+            ListEmptyComponent={() => (
+              <ListEpmtyComponent strArray={strArray} style={styles.container} />
+            )}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        </View>
       </SafeAreaView>
     </SafeAreaProvider> 
   );

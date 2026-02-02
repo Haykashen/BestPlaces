@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View, ImageBackground, ImageSourcePropType } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TPlace } from '../../constants/types';
-import Colors from '@/assets/Colors';
+import Theme from '@/assets/themes/themeDark';
 import { BlurView } from 'expo-blur';
 
 const PlaceItem = ({ name, location, url, favorite, onPress,onLongPress }: TPlace) => {
@@ -15,7 +15,7 @@ const PlaceItem = ({ name, location, url, favorite, onPress,onLongPress }: TPlac
         <BlurView intensity={50} tint="light" style={styles.image_view}>
           <Text style={styles.image_text}>{name}</Text>
           <View style={{display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
-            <Ionicons name='location-outline' color={Colors.bg_input} size={24} />
+            <Ionicons name='location-outline' color={Theme.colors.bg_input} size={24} />
             <Text style={styles.item_adress}>{location}</Text>            
           </View>
         </BlurView>
@@ -28,7 +28,7 @@ export default PlaceItem
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: Colors.bg_input,
+    backgroundColor: Theme.colors.bg_input,
     borderRadius: 15,
     marginVertical: 10,
     marginHorizontal: 20,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     marginEnd:5   
   },
   image_text: {
-    color: Colors.bg_Primary,
+    color: Theme.colors.bg_Primary,
     fontSize: 22,
     fontWeight: 'bold',
     textAlignVertical: "center",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   item_adress: {
     fontFamily:'Nunito',
-    color: Colors.bg_input,
+    color: Theme.colors.bg_input,
     fontSize: 13,
     fontWeight: 'semibold',
     textAlignVertical: "center",

@@ -10,7 +10,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { TPlace} from "../../constants/types";
 import { URL } from '../../constants/constants';
-import Colors from '@/assets/Colors';
+import Theme from '@/assets/themes/themeDark';
 // // Keep the splash screen visible while we fetch resources
 // SplashScreen.preventAutoHideAsync();
 
@@ -112,7 +112,7 @@ export default placeCard
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.bg_Primary,
+    backgroundColor: Theme.colors.bg_Primary,
     alignContent:'center',
     padding:10,
     alignItems:'center'
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 16,
-    color:Colors.text_Secondary
+    color: Theme.colors.text_Secondary
   },
   tinyLogo: {
     resizeMode: 'cover',
@@ -136,11 +136,11 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     padding:5,
     width:'90%',
-    borderColor:Colors.text_Primary,
+    borderColor: Theme.colors.text_Primary,
     borderWidth:2
   },
   textHeader:{
-    color:Colors.text_Secondary, 
+    color: Theme.colors.text_Secondary, 
     fontSize:22
   }
 });

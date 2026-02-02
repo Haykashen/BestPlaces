@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext} from "react";
+import {ThemeContext} from '../context/context';
 import { FlatList, StyleSheet, Text, View, StatusBar, RefreshControl } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import PlaceItem from '../components/items/PlaceItem';
@@ -10,6 +11,8 @@ import { URL } from '../constants/constants';
 import styles from '@/app/utils/style';
 
 const favorite = () => {
+  const {theme,setTheme} = useContext(ThemeContext);
+  
   const [refreshing, setRefreshing] = useState(false);
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')

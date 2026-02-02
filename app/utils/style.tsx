@@ -1,15 +1,14 @@
 import {StyleSheet} from 'react-native';
-import Colors from '@/assets/Colors';
+import Theme from '@/assets/themes/themeDark';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.bg_Primary,
-    flexDirection:'column',
-    alignItems:'center'
+    backgroundColor: Theme.colors.bg_Primary,
+
   },
   item: {
-    backgroundColor: Colors.text_Secondary,
+    backgroundColor: Theme.colors.text_Secondary,
     borderColor: 'whitesmoke',
     borderWidth: 2,
     padding: 20,
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 16,
-    color: Colors.text_Secondary
+    color: Theme.colors.text_Secondary
   },
   tinyLogo: {
     resizeMode: 'cover',
@@ -32,11 +31,11 @@ const styles = StyleSheet.create({
     height: 200,
   },
  textHeader:{
-    color:Colors.text_Secondary, 
+    color: Theme.colors.text_Secondary, 
     fontSize:22
   },
   item_place: {
-    backgroundColor: Colors.bg_input,
+    backgroundColor: Theme.colors.bg_input,
     borderRadius: 15,
     marginVertical: 10,
     marginHorizontal: 20,
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
     marginEnd:5   
   },
   image_text: {
-    color: Colors.text_Secondary,
+    color: Theme.colors.text_Secondary,
     fontSize: 26,
     fontWeight: 'bold',
     textAlignVertical: "center",
