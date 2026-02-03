@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext} from "react";
-import {Context} from '../context/context';
+import { useState, useEffect, useContext } from "react";
+import { Context } from '../context/context';
 import { FlatList, StyleSheet, Text, View, StatusBar, RefreshControl } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import PlaceItem from '../components/items/PlaceItem';
 import ListEpmtyComponent from '../components/ListEpmtyComponent';
 import SearchInput from '../components/SearchInput';
-import { TPlace} from "../constants/types";
+import { TPlace } from "../constants/types";
 import { RelativePathString, useRouter } from 'expo-router';
 import { URL } from '../constants/constants';
 //import styles from '@/assets/themes/styleDark';
@@ -18,48 +18,48 @@ const favorite = () => {
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');  
+  const [error, setError] = useState('');
   const router = useRouter();
   const styles = (theme == 'dark') ? styleDark : styleLight;
-  let strArray:string[] = [];
+  let strArray: string[] = [];
 
   const onRefresh = async () => {
-    setRefreshing(true);   
+    setRefreshing(true);
   };
 
-  const handlePress = (id:string)=>{
-/*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/  
-    router.push(('/components/cards/'+id) as RelativePathString)
+  const handlePress = (id: string) => {
+    /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/
+    router.push(('/components/cards/' + id) as RelativePathString)
   }
 
-  const setFavorite = async(placeId:string, favorite:boolean)=>{
+  const setFavorite = async (placeId: string, favorite: boolean) => {
 
-    let urlFavorite = URL+'?funName=SetFavoritePlace'+'&favorite='+placeId+'&link='+!favorite;
-    console.log('urlFavorite ='+urlFavorite)
+    let urlFavorite = URL + '?funName=SetFavoritePlace' + '&favorite=' + placeId + '&link=' + !favorite;
+    console.log('urlFavorite =' + urlFavorite)
 
-    try{
-        const response = await fetch(urlFavorite, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+    try {
+      const response = await fetch(urlFavorite, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     }
-    catch(e){
+    catch (e) {
       console.log('urlFavorite catch(e)')
-    }finally{
-      setRefreshing(true);  
+    } finally {
+      setRefreshing(true);
     }
   }
 
   useEffect(() => {
     async function fetchData() {
       try {
-        let seacrch = seacrchPlace ? '&search='+seacrchPlace:'';
-  
-        console.log('Place url  = '+URL+'?funName=GetFavoritePlace'+seacrch)
+        let seacrch = seacrchPlace ? '&search=' + seacrchPlace : '';
+
+        console.log('Place url  = ' + URL + '?funName=GetFavoritePlace' + seacrch)
         //"http://best-place.online:8080"+urlEnd
-        const response = await fetch(URL+'?funName=GetFavoritePlace'+seacrch, {
+        const response = await fetch(URL + '?funName=GetFavoritePlace' + seacrch, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -72,13 +72,13 @@ const favorite = () => {
         setPlace([]);
         console.log('error')
         setError((e as Error).message);
-        
+
       }
-      finally{
+      finally {
         setLoading(false);
         setRefreshing(false);
         console.log('finally')
-      }      
+      }
     }
 
     fetchData();
@@ -86,44 +86,46 @@ const favorite = () => {
 
   if (loading) {
     strArray = ['Loading...']
-     console.log('Loading')
+    console.log('Loading')
   }
   else if (error) {
     console.log('error')
-    strArray = ['Error...'+error]
+    strArray = ['Error...' + error]
   }
-   else if(place && place.length == 0){
-     console.log('No Places Found')
-    strArray = ["No Places Found", "No places found for this search query"] 
+  else if (place && place.length == 0) {
+    console.log('No Places Found')
+    strArray = ["No Places Found", "No places found for this search query"]
   }
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-          {/* <Text style={styles.textHeader}>Favorite</Text> */}
-          {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
-          
-          <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
-          <FlatList
-            data={place}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <PlaceItem
-              id={item.id}
-              name={item.name ? item.name : 'test'}
-              location = {item.location} 
-              about={item.about}
-              favorite={item.favorite}
-              url={item.url}
-              onPress={() => handlePress(item.id)}
-              onLongPress={() => setFavorite(item.id, item.favorite)}
-            />}
-            ListEmptyComponent={() => (
-              <ListEpmtyComponent strArray={strArray} style={styles.container} />
-            )}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          />
+        {/* <Text style={styles.textHeader}>Favorite</Text> */}
+        {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
+        <View style={{ alignItems: 'center' }}>
+          <Text style={styles.textHeader}>Favorite</Text>
+        </View>
+        <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
+        <FlatList
+          data={place}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <PlaceItem
+            id={item.id}
+            name={item.name ? item.name : 'test'}
+            location={item.location}
+            about={item.about}
+            favorite={item.favorite}
+            url={item.url}
+            onPress={() => handlePress(item.id)}
+            onLongPress={() => setFavorite(item.id, item.favorite)}
+          />}
+          ListEmptyComponent={() => (
+            <ListEpmtyComponent strArray={strArray} style={styles.container} />
+          )}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   )

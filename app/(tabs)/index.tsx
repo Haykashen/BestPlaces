@@ -107,9 +107,11 @@ export default function Index() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <View style={{height:'auto', width:'80%', display:'flex', flexDirection:'column', margin:'10%'}}>
+        <View style={{ maxWidth:1260, width:'auto', minWidth:'40%'}}>
           {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
-          <Text style={[styles.title, { color: 'white' }]}>Let’s Travel</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={styles.textHeader}>Let’s Travel</Text>
+        </View>          
           <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace} />
           <Text style={styles.text}>Popular Experiences</Text>
           <FlatList

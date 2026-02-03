@@ -16,10 +16,10 @@ const styleLight = StyleSheet.create({
     borderRadius: 15,
     alignItems:'center',    
   },
-  title: {
-    fontSize: 32,
-    fontWeight:'bold'
-  },
+  // title: {
+  //   fontSize: 32,
+  //   fontWeight:'bold'
+  // },
   text:{
     fontSize: 16,
     color: Theme.colors.text_Secondary
@@ -31,7 +31,8 @@ const styleLight = StyleSheet.create({
   },
  textHeader:{
     color: Theme.colors.text_Secondary, 
-    fontSize:22
+    fontSize:22,
+    fontWeight:'bold'
   },
   item_place: {
     backgroundColor: Theme.colors.bg_input,

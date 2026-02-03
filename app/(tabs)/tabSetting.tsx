@@ -25,6 +25,7 @@ const settings = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
+        <View style={{ maxWidth:1260, width:'auto', minWidth:'40%'}}>
         <View style={{ alignItems: 'center' }}>
           <Text style={styles.textHeader}>Setting</Text>
         </View>
@@ -51,6 +52,8 @@ const settings = () => {
             <Text style={styles.text}>Log out</Text>
           </TouchableOpacity>
         </View>
+        </View>
+
       </SafeAreaView>
     </SafeAreaProvider>
   )
