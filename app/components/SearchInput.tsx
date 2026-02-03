@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         margin: 10,
         height: 45,
         padding: 10,
-        borderColor: Theme.colors.text_Primary,
+        borderColor: Theme.colors.border_color,
         borderWidth: 2,
         maxWidth:860,
         minWidth:400

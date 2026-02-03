@@ -43,6 +43,7 @@ const source = useMemo(
   );
 };
 export default SlideItem;
+
 const styles = StyleSheet.create({
   container: {
     width: "100%",

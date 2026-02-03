@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext} from "react";
-import {ThemeContext} from '../context/context';
+import {Context} from '../context/context';
 import { FlatList, StyleSheet, Text, View, StatusBar, RefreshControl } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import PlaceItem from '../components/items/PlaceItem';
@@ -8,18 +8,19 @@ import SearchInput from '../components/SearchInput';
 import { TPlace} from "../constants/types";
 import { RelativePathString, useRouter } from 'expo-router';
 import { URL } from '../constants/constants';
-import styles from '@/app/utils/style';
+//import styles from '@/assets/themes/styleDark';
+import styleDark from '@/assets/themes/styleDark';
+import styleLight from '@/assets/themes/styleLight';
 
 const favorite = () => {
-  const {theme,setTheme} = useContext(ThemeContext);
-  
+  const { theme } = useContext(Context);
   const [refreshing, setRefreshing] = useState(false);
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');  
   const router = useRouter();
-
+  const styles = (theme == 'dark') ? styleDark : styleLight;
   let strArray:string[] = [];
 
   const onRefresh = async () => {

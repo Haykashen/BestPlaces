@@ -1,19 +1,23 @@
 // import createContext and useState
 import { createContext, useState } from 'react';
+import { Dimensions, Platform } from "react-native";
 // Initiate context
-const ThemeContext = createContext();
+const Context = createContext();
 
-const ThemeProvider = ({ children }) => {
+const ContextProvider = ({ children }) => {
     // Manage theme state
-    const [theme, setTheme] = useState('light');
+    const [theme, setTheme] = useState('dark');
+    const [language, setLanguage] = useState('ru');
+    const [platform, setPlatform] = useState(Platform.OS);
+
     return (
-        <ThemeContext.Provider value={{ theme, setTheme }}>
+        <Context.Provider value={{ theme, setTheme, language, setLanguage, platform, setPlatform }}>
             {children}
-        </ThemeContext.Provider>
+        </Context.Provider>
     )
 }
 
 export {
-    ThemeContext,
-    ThemeProvider
+    Context,
+    ContextProvider
 }

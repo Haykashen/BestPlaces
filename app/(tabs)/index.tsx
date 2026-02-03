@@ -1,6 +1,7 @@
 //import { CountryData } from '@/app/testData/Country';
 import {  RelativePathString, useRouter, router, useLocalSearchParams  } from 'expo-router';
-import { useState, useEffect} from "react";
+import { useState, useEffect, useContext} from "react";
+import {Context} from '../context/context';
 import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import PlaceItem from '@/app/components/items/PlaceItem';
@@ -9,11 +10,14 @@ import SearchInput from '@/app/components/SearchInput';
 import { URL } from '@/app/constants/constants';
 import { TPlace } from "@/app/constants/types";
 //import {getCountries} from '@/app/api/api'
-import styles from '@/app/utils/style';
-
+//import styles from '@/assets/themes/styleDark';
+import styleDark from '@/assets/themes/styleDark';
+import styleLight from '@/assets/themes/styleLight';
 
 
 export default function Index() {
+  const {theme } = useContext(Context);
+  const styles = (theme == 'dark') ? styleDark : styleLight;
   const { otherParam, CountryId, country } = useLocalSearchParams();
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')

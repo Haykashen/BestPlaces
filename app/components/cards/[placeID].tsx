@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     padding:5,
     width:'90%',
-    borderColor: Theme.colors.text_Primary,
+    borderColor: Theme.colors.border_color,
     borderWidth:2
   },
   textHeader:{

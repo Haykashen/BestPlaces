@@ -1,11 +1,10 @@
 import {StyleSheet} from 'react-native';
-import Theme from '@/assets/themes/themeDark';
+import Theme from '@/assets/themes/themeLight';
 
-const styles = StyleSheet.create({
+const styleLight = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.bg_Primary,
-
   },
   item: {
     backgroundColor: Theme.colors.text_Secondary,
@@ -78,4 +77,4 @@ const styles = StyleSheet.create({
   }    
 });
 
-export default styles;
+export default styleLight;
