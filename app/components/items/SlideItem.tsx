@@ -11,20 +11,17 @@ import {
 import type { AnimatedProps } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 
-interface Props extends AnimatedProps<ViewProps> {
+interface SlideItemProps extends AnimatedProps<ViewProps> {
   style?: StyleProp<ImageStyle>;
   index?: number;
   rounded?: boolean;
   source: string[];
 }
 
-const SlideItem: React.FC<Props> = (props) => {
+const SlideItem: React.FC<SlideItemProps> = (props) => {
   const { style, index = 0, rounded = false, testID, ...animatedViewProps } = props;
 
-const source = useMemo(
-    () => props.source[index % props.source.length],
-    [index, props.source]
-  );
+  const source = useMemo(() => props.source[index % props.source.length], [index, props.source]);
   //{{uri: source[index]}}
   let urlNew = "data:image/png;base64,"+source;
   return (
