@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import Theme from '@/assets/themes/themeLight';
 
-const styleLight = StyleSheet.create({
+const styleLightWeb = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.bg_Primary,
@@ -78,4 +78,4 @@ const styleLight = StyleSheet.create({
   }    
 });
 
-export default styleLight;
+export default styleLightWeb;

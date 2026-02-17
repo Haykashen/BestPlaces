@@ -9,18 +9,19 @@ import { TPlace } from "../constants/types";
 import { RelativePathString, useRouter } from 'expo-router';
 import { URL } from '../constants/constants';
 //import styles from '@/assets/themes/styleDark';
-import styleDark from '@/assets/themes/styleDark';
-import styleLight from '@/assets/themes/styleLight';
+import styleSetting from '@/assets/themes/styleSetting';
 
 const favorite = () => {
-  const { theme } = useContext(Context);
   const [refreshing, setRefreshing] = useState(false);
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
-  const styles = (theme == 'dark') ? styleDark : styleLight;
+  const {theme, platform } = useContext(Context);
+
+  const styles = styleSetting[theme][platform]; 
+  
   let strArray: string[] = [];
 
   const onRefresh = async () => {

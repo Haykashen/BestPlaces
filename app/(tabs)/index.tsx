@@ -2,7 +2,7 @@
 import {  RelativePathString, useRouter, router, useLocalSearchParams  } from 'expo-router';
 import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
-import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
+import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl, StyleProp } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import PlaceItem from '@/app/components/items/PlaceItem';
 import ListEpmtyComponent from '@/app/components/ListEpmtyComponent';
@@ -11,20 +11,20 @@ import { URL } from '@/app/constants/constants';
 import { TPlace } from "@/app/constants/types";
 //import {getCountries} from '@/app/api/api'
 //import styles from '@/assets/themes/styleDark';
-import styleDark from '@/assets/themes/styleDark';
-import styleLight from '@/assets/themes/styleLight';
-
+import styleSetting from '@/assets/themes/styleSetting';
 
 export default function Index() {
-  const {theme } = useContext(Context);
-  const styles = (theme == 'dark') ? styleDark : styleLight;
-  const { otherParam, CountryId, country } = useLocalSearchParams();
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const {theme, platform } = useContext(Context);
+
+  const styles = styleSetting[theme][platform]; 
+
+  const { otherParam, CountryId, country } = useLocalSearchParams();
 
   let strArray:string[] = [];
 

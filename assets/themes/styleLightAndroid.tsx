@@ -1,11 +1,10 @@
 import {StyleSheet} from 'react-native';
-import Theme from '@/assets/themes/themeDark';
+import Theme from '@/assets/themes/themeLight';
 
-const styleDark = StyleSheet.create({
+const styleLightWeb = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.bg_Primary,
-    alignItems:'center'
   },
   item: {
     backgroundColor: Theme.colors.text_Secondary,
@@ -17,6 +16,10 @@ const styleDark = StyleSheet.create({
     borderRadius: 15,
     alignItems:'center',    
   },
+  // title: {
+  //   fontSize: 32,
+  //   fontWeight:'bold'
+  // },
   text:{
     fontSize: 16,
     color: Theme.colors.text_Secondary
@@ -38,6 +41,7 @@ const styleDark = StyleSheet.create({
     marginHorizontal: 20,
     height: 300,
     width: '90%',
+  
     maxWidth:860
   },
   favorite_item_border:{
@@ -74,4 +78,4 @@ const styleDark = StyleSheet.create({
   }    
 });
 
-export default styleDark;
+export default styleLightWeb;

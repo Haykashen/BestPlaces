@@ -2,12 +2,12 @@ import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
 import { Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import styleDark from '@/assets/themes/styleDark';
-import styleLight from '@/assets/themes/styleLight';
+import styleSetting from '@/assets/themes/styleSetting';
 
 const settings = () => {
   const { theme, setTheme, language, setLanguage, platform, setPlatform } = useContext(Context);
-  const styles = (theme == 'dark') ? styleDark : styleLight;
+
+  const styles = styleSetting[theme][platform]; 
   
   const handleThemeChange = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
