@@ -1,5 +1,6 @@
 //'#4894FE'
 const themeDark = {
+    name:'dark',
     colors: {
         bg_Primary: '#031F2B',
         bg_input: '#263238',

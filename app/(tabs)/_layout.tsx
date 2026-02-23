@@ -13,7 +13,7 @@ export default function RootLayout() {
         screenOptions={{
           tabBarActiveTintColor: '#4894FE',
         }}>
-        <Tabs.Screen name="index" options={{
+        <Tabs.Screen name="tabPlace" options={{
           headerShown: false,
           title: 'Place',
           tabBarIcon: ({ color, focused }) => (
@@ -25,6 +25,18 @@ export default function RootLayout() {
             color: 'white'
           }
         }} />
+        <Tabs.Screen name="tabSearch" options={{
+          headerShown: false,
+          title: 'Search',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'search-sharp' : 'search-outline'} color={color} size={24} />
+          ),
+          tabBarBadge: 2,
+          tabBarBadgeStyle: {
+            backgroundColor: 'tomato',
+            color: 'white'
+          }
+        }} />        
         <Tabs.Screen name="tabFavorite" options={{
           headerShown: false,
           title: 'Favorite',

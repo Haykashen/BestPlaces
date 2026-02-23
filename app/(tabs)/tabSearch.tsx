@@ -9,20 +9,20 @@ import { TPlace } from "../constants/types";
 import { RelativePathString, useRouter } from 'expo-router';
 import { URL } from '../constants/constants';
 //import styles from '@/assets/themes/styleDark';
-import styleSetting from '@/app/tresh/style/styleSetting';
+//import styleSetting from '@/assets/themes/styleSetting';
 
-
-const favorite = () => {
+const search = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [place, setPlace] = useState<TPlace[]>()
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const router = useRouter();
-  const {theme, platform, style } = useContext(Context);
+  const {theme, platform, style, } = useContext(Context);
 
   //const styles = styleSetting[theme][platform]; 
-  const styles = style
+  const styles = style  
+  
   let strArray: string[] = [];
 
   const onRefresh = async () => {
@@ -105,7 +105,7 @@ const favorite = () => {
         {/* <Text style={styles.textHeader}>Favorite</Text> */}
         {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
         <View style={{ alignItems: 'center' }}>
-          <Text style={styles.textHeader}>Favorite</Text>
+          <Text style={styles.textHeader}>Search</Text>
         </View>
         <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
         <FlatList
@@ -133,5 +133,4 @@ const favorite = () => {
   )
 }
 
-export default favorite
-
+export default search

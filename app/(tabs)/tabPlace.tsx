@@ -1,4 +1,3 @@
-//import { CountryData } from '@/app/testData/Country';
 import {  RelativePathString, useRouter, router, useLocalSearchParams  } from 'expo-router';
 import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
@@ -11,25 +10,26 @@ import { URL } from '@/app/constants/constants';
 import { TPlace } from "@/app/constants/types";
 //import {getCountries} from '@/app/api/api'
 //import styles from '@/assets/themes/styleDark';
-import styleSetting from '@/assets/themes/styleSetting';
+//import styleSetting from '@/app/tresh/style/styleSetting';
+import PlaceCategory from '../components/PlaceCategory';
 
-export default function Index() {
-  const [place, setPlace] = useState<TPlace[]>()
+const place = () => {
+  const [place, setPlace] = useState<TPlace[]>([])
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
-  const {theme, platform } = useContext(Context);
+  const { theme, platform, style } = useContext(Context);
 
-  const styles = styleSetting[theme][platform]; 
-
+  //const styles = styleSetting[theme][platform]; 
+  const styles = style
   const { otherParam, CountryId, country } = useLocalSearchParams();
 
-  let strArray:string[] = [];
+  let strArray: string[] = [];
 
   const onRefresh = async () => {
-    setRefreshing(true);   
+    setRefreshing(true);
   };
 
   useEffect(() => {
@@ -37,12 +37,12 @@ export default function Index() {
       try {
         //let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
         //let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
-        console.log('Place url CountryId = '+CountryId)
-        let seacrch = seacrchPlace ? '&search='+seacrchPlace:'';
-        let countryId = CountryId ? '&country='+CountryId:'';
-        console.log('Place url  = '+URL+'?funName=GetPlace'+countryId+seacrch)
+        console.log('Place url CountryId = ' + CountryId)
+        let seacrch = seacrchPlace ? '&search=' + seacrchPlace : '';
+        let countryId = CountryId ? '&country=' + CountryId : '';
+        console.log('Place url  = ' + URL + '?funName=GetPlace' + countryId + seacrch)
         //"http://best-place.online:8080"+urlEnd
-        const response = await fetch(URL+'?funName=GetPlace'+countryId+seacrch, {
+        const response = await fetch(URL + '?funName=GetPlace' + countryId + seacrch, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -55,13 +55,13 @@ export default function Index() {
         setPlace([]);
         console.log('error')
         setError((e as Error).message);
-        
+
       }
-      finally{
+      finally {
         setLoading(false);
         setRefreshing(false);
         console.log('finally')
-      }      
+      }
     }
 
     fetchData();
@@ -69,51 +69,73 @@ export default function Index() {
 
   if (loading) {
     strArray = ['Loading...']
-     console.log('Loading')
+    console.log('Loading')
   }
   else if (error) {
     console.log('error')
-    strArray = ['Error...'+error]
+    strArray = ['Error...' + error]
   }
-   else if(place && place.length == 0){
-     console.log('No Places Found')
-    strArray = ["No Places Found", "No places found for this search query"] 
+  else if (place && place.length == 0) {
+    console.log('No Places Found')
+    strArray = ["No Places Found", "No places found for this search query"]
   }
 
-  const setFavorite = async(placeId:string, favorite:boolean)=>{
+  const setFavorite = async (placeId: string, favorite: boolean) => {
 
-    let urlFavorite = URL+'?funName=SetFavoritePlace'+'&favorite='+placeId+'&link='+!favorite;
-    console.log('urlFavorite ='+urlFavorite)
+    let urlFavorite = URL + '?funName=SetFavoritePlace' + '&favorite=' + placeId + '&link=' + !favorite;
+    console.log('urlFavorite =' + urlFavorite)
 
-    try{
-        const response = await fetch(urlFavorite, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+    try {
+      const response = await fetch(urlFavorite, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
     }
-    catch(e){
+    catch (e) {
       console.log('urlFavorite catch(e)')
-    }finally{
-      setRefreshing(true);  
+    } finally {
+      setRefreshing(true);
     }
   }
 
-  const handlePress = (id:string)=>{
-/*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/  
-    router.push(('/components/cards/'+id) as RelativePathString)
+  const handlePress = (id: string) => {
+    /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/
+    router.push(('/components/cards/' + id) as RelativePathString)
   }
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <View style={{ maxWidth:1260, width:'auto', minWidth:'40%'}}>
+        <View style={{ maxWidth: 1260, width: 'auto', minWidth: '40%' }}>
           {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
-        <View style={{ alignItems: 'center' }}>
-          <Text style={styles.textHeader}>Let’s Travel</Text>
-        </View>          
+          <View style={{ alignItems: 'center' }}>
+            <Text style={styles.textHeader}>Let`s Travel</Text>
+          </View>
           <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace} />
-          <Text style={styles.text}>Popular Experiences</Text>
+          <PlaceCategory 
+            horizontal = {true}
+            placeArray={place}
+            title='Popular Experiences'
+            strArray={strArray}
+            setFavorite={setFavorite}
+          />  
+          <PlaceCategory 
+            horizontal = {false}
+            placeArray={place}
+            title='Popular Experiences'
+            strArray={strArray}
+            setFavorite={setFavorite}
+          />           
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
+}
+
+export default place
+
+          /* <Text style={styles.text}>Popular Experiences</Text>
           <FlatList
             horizontal={true}
             data={place}
@@ -155,9 +177,4 @@ export default function Index() {
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
-          />
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider> 
-  );
-}
+          /> */

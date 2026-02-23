@@ -1,24 +1,34 @@
 import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import styleSetting from '@/assets/themes/styleSetting';
+//import styleSetting from '@/app/tresh/style/styleSetting';
+import themeDark from '@/assets/themes/themeDark';
+import themeLight from "@/assets/themes/themeLight";
+import styleAndroid from '@/assets/themes/styleAndroid';
+import styleWeb from "@/assets/themes/styleWeb";
 
 const settings = () => {
-  const { theme, setTheme, language, setLanguage, platform, setPlatform } = useContext(Context);
-
-  const styles = styleSetting[theme][platform]; 
+  const { theme, setTheme, language, setLanguage, platform, setPlatform, themeNew, setThemeNew, style, setStyle} = useContext(Context);
+  const styles = style
+  //const styles = styleSetting[theme][platform]; 
+  
   
   const handleThemeChange = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+   // setTheme(theme === 'light' ? 'dark' : 'light');
+    //alert(themeNew.name)
+    //alert(themeNew.name === 'light' ? themeDark.name : themeLight.name)
+    setThemeNew(themeNew.name === 'dark' ? themeLight : themeDark);
+    setStyle(styleAndroid(themeNew.name === 'dark' ? themeLight : themeDark))
   }
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = () => {   
     setLanguage(language === 'ru' ? 'en' : 'ru');
   }
   
   const handlePlatformChange = () => {
     setPlatform(platform === 'web' ? 'android' : 'web');
+    setStyle(platform === 'web' ? styleAndroid(themeNew) : styleWeb(themeNew))
   }
   
 
@@ -32,7 +42,7 @@ const settings = () => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={styles.text}>Theme</Text>
           <TouchableOpacity onPress={handleThemeChange}>
-            <Text style={styles.text}>{theme}</Text>
+            <Text style={styles.text}>{themeNew.name}</Text>
           </TouchableOpacity>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

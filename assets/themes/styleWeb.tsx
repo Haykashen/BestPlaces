@@ -1,4 +1,6 @@
-const styleWeb = (Theme:any)=>({
+import {StyleSheet} from 'react-native';
+
+const styleWeb = (Theme:any)=>StyleSheet.create({
   container: {
     'flex': 1,
     'backgroundColor': Theme.colors.bg_Primary,

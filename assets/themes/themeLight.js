@@ -1,5 +1,6 @@
 //'#4894FE'
 const themeLight = {
+    name:'light',
     colors: {
         bg_Primary: '#ffffffff',
         bg_input: '#545759',

@@ -1,7 +1,7 @@
-import styleDarkWeb from '@/assets/themes/styleDarkWeb';
-import styleLightWeb from '@/assets/themes/styleLightWeb';
-import styleDarkAndroid from '@/assets/themes/styleDarkAndroid';
-import styleLightAndroid from '@/assets/themes/styleLightAndroid';  
+import styleDarkWeb from '@/app/tresh/style/styleDarkWeb';
+import styleLightWeb from '@/app/tresh/style/styleLightWeb';
+import styleDarkAndroid from '@/app/tresh/style/styleDarkAndroid';
+import styleLightAndroid from '@/app/tresh/style/styleLightAndroid';  
   
 const styleSetting: { [key: string]: { [key: string]: any } } = {
     'dark': {

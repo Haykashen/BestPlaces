@@ -1,4 +1,6 @@
-const styleAndroid = (Theme:any)=>({
+import {StyleSheet} from 'react-native';
+
+const styleAndroid = (Theme:any)=> StyleSheet.create({
   container: {
     'flex': 1,
     'backgroundColor': Theme.colors.bg_Primary,
