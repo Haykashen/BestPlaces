@@ -5,6 +5,7 @@ import {Context} from './context/context';
 import { StatusBar, StyleSheet, View, Text, TouchableOpacity } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
+
 import { TPlace } from "@/app/constants/types";
 
 
@@ -21,11 +22,11 @@ export default function Index() {
   const styles = style
   const { otherParam, CountryId, country } = useLocalSearchParams();
 
-
   const handlePress = ()=>{
 /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/  
     router.push(('/(tabs)/tabPlace') as RelativePathString)
   }
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>

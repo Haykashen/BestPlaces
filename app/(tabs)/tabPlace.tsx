@@ -3,8 +3,8 @@ import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
 import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl, StyleProp } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import PlaceItem from '@/app/components/items/PlaceItem';
-import ListEpmtyComponent from '@/app/components/ListEpmtyComponent';
+// import PlaceItem from '@/app/components/items/PlaceItem';
+// import ListEpmtyComponent from '@/app/components/ListEpmtyComponent';
 import SearchInput from '@/app/components/SearchInput';
 import { URL } from '@/app/constants/constants';
 import { TPlace } from "@/app/constants/types";
@@ -12,6 +12,10 @@ import { TPlace } from "@/app/constants/types";
 //import styles from '@/assets/themes/styleDark';
 //import styleSetting from '@/app/tresh/style/styleSetting';
 import PlaceCategory from '../components/PlaceCategory';
+// import getObjectValue from '@/app/async-storage/getObjectValue';
+// import setObjectValue from '@/app/async-storage/setObjectValue';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const place = () => {
   const [place, setPlace] = useState<TPlace[]>([])
@@ -27,13 +31,37 @@ const place = () => {
   const { otherParam, CountryId, country } = useLocalSearchParams();
 
   let strArray: string[] = [];
+  let newDate = new Date().toLocaleDateString();
 
-  const onRefresh = async () => {
-    setRefreshing(true);
-  };
+  // const onRefresh = async () => {
+  //   setRefreshing(true);
+  // };
 
   useEffect(() => {
     async function fetchData() {
+      try{
+        const jsonValue = await AsyncStorage.getItem('placeData')
+        if(jsonValue != null)
+        {
+            console.log('dataFromStore != NULL')
+            const dataFromStore = JSON.parse(jsonValue);
+            if(dataFromStore.date && dataFromStore.date === newDate)
+            {
+              setPlace(dataFromStore.data);
+              console.log('dataFromStore RETURN')
+              setLoading(false);
+              setRefreshing(false);              
+              return;              
+            }
+
+        }
+         
+      }
+      catch(e)
+      {
+        alert ('Ошибка при попытке получения данных из локалстора')
+      }
+
       try {
         //let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
         //let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
@@ -51,6 +79,10 @@ const place = () => {
         const data = await response.json();
         setPlace(data);
         console.log(place)
+
+        const jsonValue = JSON.stringify({"date": newDate, "data":[data[0]]})
+        await AsyncStorage.setItem('placeData', jsonValue)
+        
       } catch (e) {
         setPlace([]);
         console.log('error')
@@ -104,6 +136,13 @@ const place = () => {
     /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/
     router.push(('/components/cards/' + id) as RelativePathString)
   }
+
+
+// setObjectValue('@key',{name:'Armen'})
+
+// var obj = getObjectValue('@key')
+//console.log('obj =', obj)
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -111,6 +150,7 @@ const place = () => {
           {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
           <View style={{ alignItems: 'center' }}>
             <Text style={styles.textHeader}>Let`s Travel</Text>
+             <Text style={styles.textHeader}>{newDate}</Text>                      
           </View>
           <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace} />
           <PlaceCategory 
