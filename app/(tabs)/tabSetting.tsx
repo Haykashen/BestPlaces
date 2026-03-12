@@ -7,9 +7,10 @@ import themeDark from '@/assets/themes/themeDark';
 import themeLight from "@/assets/themes/themeLight";
 import styleAndroid from '@/assets/themes/styleAndroid';
 import styleWeb from "@/assets/themes/styleWeb";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const settings = () => {
-  const { theme, setTheme, language, setLanguage, platform, setPlatform, themeNew, setThemeNew, style, setStyle} = useContext(Context);
+  const { theme, setTheme, language, setLanguage, platform, setPlatform, style, setStyle} = useContext(Context);
   const styles = style
   //const styles = styleSetting[theme][platform]; 
   
@@ -18,17 +19,22 @@ const settings = () => {
    // setTheme(theme === 'light' ? 'dark' : 'light');
     //alert(themeNew.name)
     //alert(themeNew.name === 'light' ? themeDark.name : themeLight.name)
-    setThemeNew(themeNew.name === 'dark' ? themeLight : themeDark);
-    setStyle(styleAndroid(themeNew.name === 'dark' ? themeLight : themeDark))
+    const curretTheme = theme.name === 'dark' ? themeLight : themeDark;
+    setTheme(curretTheme);
+    //const setTheme = 
+    async() => await AsyncStorage.setItem('theme', JSON.stringify(curretTheme))    
+    setStyle(styleAndroid(curretTheme))
   }
 
-  const handleLanguageChange = () => {   
-    setLanguage(language === 'ru' ? 'en' : 'ru');
+  const handleLanguageChange = () => {
+    const curretLanguage = (language === 'ru') ? 'en' : 'ru';
+    setLanguage(curretLanguage);
+    async() => await AsyncStorage.setItem('language', JSON.stringify(curretLanguage)) 
   }
   
   const handlePlatformChange = () => {
     setPlatform(platform === 'web' ? 'android' : 'web');
-    setStyle(platform === 'web' ? styleAndroid(themeNew) : styleWeb(themeNew))
+    setStyle(platform === 'web' ? styleAndroid(theme) : styleWeb(theme))
   }
   
 
@@ -42,7 +48,7 @@ const settings = () => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={styles.text}>Theme</Text>
           <TouchableOpacity onPress={handleThemeChange}>
-            <Text style={styles.text}>{themeNew.name}</Text>
+            <Text style={styles.text}>{theme.name}</Text>
           </TouchableOpacity>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

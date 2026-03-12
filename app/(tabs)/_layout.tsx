@@ -19,9 +19,9 @@ export default function RootLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? 'location-sharp' : 'location-outline'} color={color} size={24} />
           ),
-          tabBarBadge: 2,
+          tabBarBadge: '2',
           tabBarBadgeStyle: {
-            backgroundColor: 'tomato',
+            backgroundColor: 'green',
             color: 'white'
           }
         }} />

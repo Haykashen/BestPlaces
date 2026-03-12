@@ -3,17 +3,10 @@ import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
 import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl, StyleProp } from "react-native"; // TouchableOpacity,  FlatList, Image,Text, 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-// import PlaceItem from '@/app/components/items/PlaceItem';
-// import ListEpmtyComponent from '@/app/components/ListEpmtyComponent';
 import SearchInput from '@/app/components/SearchInput';
 import { URL } from '@/app/constants/constants';
 import { TPlace } from "@/app/constants/types";
-//import {getCountries} from '@/app/api/api'
-//import styles from '@/assets/themes/styleDark';
-//import styleSetting from '@/app/tresh/style/styleSetting';
 import PlaceCategory from '../components/PlaceCategory';
-// import getObjectValue from '@/app/async-storage/getObjectValue';
-// import setObjectValue from '@/app/async-storage/setObjectValue';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -32,10 +25,6 @@ const place = () => {
 
   let strArray: string[] = [];
   let newDate = new Date().toLocaleDateString();
-
-  // const onRefresh = async () => {
-  //   setRefreshing(true);
-  // };
 
   useEffect(() => {
     async function fetchData() {
@@ -63,13 +52,10 @@ const place = () => {
       }
 
       try {
-        //let search = seacrchPlace ? '/search?q='+seacrchPlace+'&limit=10' : '';
-        //let urlEnd = CountryId ? "/countries/"+CountryId+"/places"+search:"/places"+search;
         console.log('Place url CountryId = ' + CountryId)
         let seacrch = seacrchPlace ? '&search=' + seacrchPlace : '';
         let countryId = CountryId ? '&country=' + CountryId : '';
         console.log('Place url  = ' + URL + '?funName=GetPlace' + countryId + seacrch)
-        //"http://best-place.online:8080"+urlEnd
         const response = await fetch(URL + '?funName=GetPlace' + countryId + seacrch, {
           method: 'GET',
           headers: {
@@ -132,16 +118,10 @@ const place = () => {
     }
   }
 
-  const handlePress = (id: string) => {
-    /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/
-    router.push(('/components/cards/' + id) as RelativePathString)
-  }
-
-
-// setObjectValue('@key',{name:'Armen'})
-
-// var obj = getObjectValue('@key')
-//console.log('obj =', obj)
+  // const handlePress = (id: string) => {
+  //   /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/
+  //   router.push(('/components/cards/' + id) as RelativePathString)
+  // }
 
   return (
     <SafeAreaProvider>
@@ -156,7 +136,7 @@ const place = () => {
           <PlaceCategory 
             horizontal = {true}
             placeArray={place}
-            title='Popular Experiences'
+            title='New location'
             strArray={strArray}
             setFavorite={setFavorite}
           />  
@@ -174,47 +154,3 @@ const place = () => {
 }
 
 export default place
-
-          /* <Text style={styles.text}>Popular Experiences</Text>
-          <FlatList
-            horizontal={true}
-            data={place}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <PlaceItem
-              id={item.id}
-              name={item.name}
-              location={item.location}
-              favorite={item.favorite}
-              about={item.about}
-              url={item.url}
-              onPress={() => handlePress(item.id)}
-              onLongPress={() => setFavorite(item.id, item.favorite)}
-            />}
-            ListEmptyComponent={() => (
-              <ListEpmtyComponent strArray={strArray} style={styles.container} />
-            )}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          />
-          <Text style={styles.text}>Nearest Places</Text>
-          <FlatList
-            data={place}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => <PlaceItem
-              id={item.id}
-              name={item.name ? item.name : 'test'}
-              location={item.location}
-              favorite={item.favorite}
-              about={item.about}
-              url={item.url}
-              onPress={() => handlePress(item.id)}
-              onLongPress={() => setFavorite(item.id, item.favorite)}
-            />}
-            ListEmptyComponent={() => (
-              <ListEpmtyComponent strArray={strArray} style={styles.container} />
-            )}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          /> */
