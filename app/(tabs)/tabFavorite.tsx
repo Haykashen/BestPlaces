@@ -10,11 +10,11 @@ import { RelativePathString, useRouter } from 'expo-router';
 import { URL } from '../constants/constants';
 //import styles from '@/assets/themes/styleDark';
 import styleSetting from '@/app/tresh/style/styleSetting';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const favorite = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const [place, setPlace] = useState<TPlace[]>()
+  const [favorite, setFavorite] = useState<TPlace[]>([])
   const [seacrchPlace, setSeacrchPlace] = useState('')
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -25,6 +25,37 @@ const favorite = () => {
   const styles = style
   let strArray: string[] = [];
 
+  useEffect(() => {
+    async function getFavorite() {
+      try {
+        const jsonValue = await AsyncStorage.getItem('favoriteData')
+        if (!jsonValue)
+          return;
+        console.log('getFavoriteFromStore != NULL')
+        const dataFromStore = JSON.parse(jsonValue);
+        setFavorite(dataFromStore.data);
+        console.log('getFavorite RETURN')
+        setLoading(false);
+        setRefreshing(false);
+        return;
+      }
+      catch (e) 
+      {
+        setFavorite([]);
+        console.log('error')
+        alert('Ошибка при попытке получения данных из локалстора')
+        setError((e as Error).message);
+
+      }
+      finally {
+        setLoading(false);
+        setRefreshing(false);
+        console.log('finally')
+      }      
+    }
+    getFavorite()
+  }, [seacrchPlace, refreshing])
+
   const onRefresh = async () => {
     setRefreshing(true);
   };
@@ -34,7 +65,7 @@ const favorite = () => {
     router.push(('/components/cards/' + id) as RelativePathString)
   }
 
-  const setFavorite = async (placeId: string, favorite: boolean) => {
+  const handleLongPress = async (placeId: string, favorite: boolean) => {
 
     let urlFavorite = URL + '?funName=SetFavoritePlace' + '&favorite=' + placeId + '&link=' + !favorite;
     console.log('urlFavorite =' + urlFavorite)
@@ -54,37 +85,37 @@ const favorite = () => {
     }
   }
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        let seacrch = seacrchPlace ? '&search=' + seacrchPlace : '';
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       let seacrch = seacrchPlace ? '&search=' + seacrchPlace : '';
 
-        console.log('Place url  = ' + URL + '?funName=GetFavoritePlace' + seacrch)
-        //"http://best-place.online:8080"+urlEnd
-        const response = await fetch(URL + '?funName=GetFavoritePlace' + seacrch, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        setPlace(data);
-        console.log(place)
-      } catch (e) {
-        setPlace([]);
-        console.log('error')
-        setError((e as Error).message);
+  //       console.log('Place url  = ' + URL + '?funName=GetFavoritePlace' + seacrch)
+  //       //"http://best-place.online:8080"+urlEnd
+  //       const response = await fetch(URL + '?funName=GetFavoritePlace' + seacrch, {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
+  //       const data = await response.json();
+  //       setPlace(data);
+  //       console.log(favorite)
+  //     } catch (e) {
+  //       setPlace([]);
+  //       console.log('error')
+  //       setError((e as Error).message);
 
-      }
-      finally {
-        setLoading(false);
-        setRefreshing(false);
-        console.log('finally')
-      }
-    }
+  //     }
+  //     finally {
+  //       setLoading(false);
+  //       setRefreshing(false);
+  //       console.log('finally')
+  //     }
+  //   }
 
-    fetchData();
-  }, [seacrchPlace, refreshing]);
+  //   fetchData();
+  // }, [seacrchPlace, refreshing]);
 
   if (loading) {
     strArray = ['Loading...']
@@ -94,7 +125,7 @@ const favorite = () => {
     console.log('error')
     strArray = ['Error...' + error]
   }
-  else if (place && place.length == 0) {
+  else if (favorite && favorite.length == 0) {
     console.log('No Places Found')
     strArray = ["No Places Found", "No places found for this search query"]
   }
@@ -109,7 +140,7 @@ const favorite = () => {
         </View>
         <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search place ..." value={seacrchPlace} />
         <FlatList
-          data={place}
+          data={favorite}
           keyExtractor={item => item.id}
           renderItem={({ item }) => <PlaceItem
             id={item.id}
@@ -119,7 +150,7 @@ const favorite = () => {
             favorite={item.favorite}
             url={item.url}
             onPress={() => handlePress(item.id)}
-            onLongPress={() => setFavorite(item.id, item.favorite)}
+            onLongPress={() => handleLongPress(item.id, item.favorite)}
           />}
           ListEmptyComponent={() => (
             <ListEpmtyComponent strArray={strArray} style={styles.container} />
