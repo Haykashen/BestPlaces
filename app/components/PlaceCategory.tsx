@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl, StyleProp} from 'react-native'
+import { StatusBar, StyleSheet, View, Text, FlatList, RefreshControl, StyleProp, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { ViewStyle } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
@@ -9,24 +9,33 @@ import PlaceItem from '@/app/components/items/PlaceItem';
 import { useState, useEffect, useContext} from "react";
 import {Context} from '../context/context';
 
-type PlaceCategory = {title:string, horizontal:boolean, strArray?:string[],  placeArray:TPlace[],  setFavorite: ((id: string, favorite:boolean) => void)};//styles?: StyleProp<ViewStyle>,
+type PlaceCategory = {title:string, horizontal:boolean, strArray?:string[],  placeArray:TPlace[], onItemPress:((id: string)=>void),  setFavorite: ((id: string, favorite:boolean) => void), openText:string, openVoid:(()=>void)};//styles?: StyleProp<ViewStyle>,
 
-const PlaceCategory = ({ title, horizontal, strArray, placeArray, setFavorite }: PlaceCategory) => {
+const PlaceCategory = ({ title, horizontal, strArray, placeArray, onItemPress, setFavorite, openText, openVoid }: PlaceCategory) => {
 
     const { style } = useContext(Context);
     const styles = style;
 
     const handlePress = (id: string) => {
         /*router.push({pathname: '/components/cards/placeCard',params: { placeID: item.id, otherParam: 'anything you want here' }})*/
-        router.push(('/components/cards/' + id) as RelativePathString)
+        onItemPress(id)
+        //router.push(('/components/cards/' + id) as RelativePathString)
     }
     const handleLongPress = (id: string, favorite: boolean) => {
         setFavorite(id, favorite)
     }   
 
+    const handleOpen =() =>{
+          openVoid()
+    }
     return (
         <View>
-            <Text style={styles.text}>{title}</Text>
+            <View style={{ display: 'flex', 'flexDirection': 'row', 'justifyContent': 'space-between' }}>
+                <Text style={styles.text}>{title}</Text>
+                <TouchableOpacity onPress={handleOpen}>
+                    <Text style={styles.text}>{openText}</Text>
+                </TouchableOpacity>
+            </View>
             <FlatList
                 horizontal={horizontal}
                 data={placeArray}
@@ -44,9 +53,9 @@ const PlaceCategory = ({ title, horizontal, strArray, placeArray, setFavorite }:
                 ListEmptyComponent={() => (
                     <ListEpmtyComponent strArray={strArray} style={styles.container} />
                 )}
-                // refreshControl={
-                //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                // }
+            // refreshControl={
+            //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            // }
             />
         </View>
     )

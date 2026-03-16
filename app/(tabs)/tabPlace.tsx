@@ -16,7 +16,7 @@ const place = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [refreshing, setRefreshing] = useState(false);
+  //const [refreshing, setRefreshing] = useState(false);
   const { theme, platform, style } = useContext(Context);
 
   //const styles = styleSetting[theme][platform]; 
@@ -34,12 +34,12 @@ const place = () => {
         {
             console.log('dataFromStore != NULL')
             const dataFromStore = JSON.parse(jsonValue);
-            if(dataFromStore.date && dataFromStore.date === newDate)
+            if(dataFromStore.date && dataFromStore.date !== newDate)
             {
               setPlace(dataFromStore.data);
               console.log('dataFromStore RETURN')
               setLoading(false);
-              setRefreshing(false);              
+              //setRefreshing(false);              
               return;              
             }
 
@@ -65,6 +65,10 @@ const place = () => {
         const data = await response.json();
         setPlace(data);
         console.log(place)
+        
+        // потом убрать
+        if(data.length > 5)
+          data.length = 5;
 
         const jsonValue = JSON.stringify({"date": newDate, "data":[data[0]]})
         await AsyncStorage.setItem('placeData', jsonValue)
@@ -77,13 +81,13 @@ const place = () => {
       }
       finally {
         setLoading(false);
-        setRefreshing(false);
+       // setRefreshing(false);
         console.log('finally')
       }
     }
 
     fetchData();
-  }, [CountryId, seacrchPlace, refreshing]);
+  }, [CountryId, seacrchPlace]);//refreshing
 
   if (loading) {
     strArray = ['Loading...']
@@ -93,9 +97,12 @@ const place = () => {
     console.log('error')
     strArray = ['Error...' + error]
   }
-  else if (place && place.length == 0) {
+  else if (place.length == 0) {
     console.log('No Places Found')
-    strArray = ["No Places Found", "No places found for this search query"]
+    if(seacrchPlace.length !== 0)
+      strArray = ["No Places Found", "No places found for this search query"]
+    else
+      strArray = ["No Places Found", "No places found"]
   }
 
   const setFavorite = async (placeId: string, favorite: boolean) => {
@@ -114,7 +121,7 @@ const place = () => {
     catch (e) {
       console.log('urlFavorite catch(e)')
     } finally {
-      setRefreshing(true);
+      //setRefreshing(true);
     }
   }
 
@@ -127,10 +134,9 @@ const place = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View style={{ maxWidth: 1260, width: 'auto', minWidth: '40%' }}>
-          {refreshing && <Text style={styles.text}>Refresh: {refreshing ? 'true' : 'false'}</Text>}
           <View style={{ alignItems: 'center' }}>
             <Text style={styles.textHeader}>Let`s Travel</Text>
-             <Text style={styles.textHeader}>{newDate}</Text>                      
+            <Text style={styles.textHeader}>{newDate}</Text>                      
           </View>
           <SearchInput onChangeText={(text) => setSeacrchPlace(text)} placeholder="Search your place" value={seacrchPlace} />
           <PlaceCategory 
@@ -139,14 +145,30 @@ const place = () => {
             title='New location'
             strArray={strArray}
             setFavorite={setFavorite}
+            openText='See all'
+            openVoid={()=> alert('New location see all cliked')}
+            onItemPress = {(id)=>router.push(('/components/cards/' + id) as RelativePathString)} 
           />  
           <PlaceCategory 
-            horizontal = {false}
+            horizontal = {true}
             placeArray={place}
             title='Popular Experiences'
             strArray={strArray}
             setFavorite={setFavorite}
-          />           
+            openText='See all'
+            openVoid={()=> alert('Popular Experiences see all cliked')}   
+            onItemPress = {(id)=>router.push(('/components/cards/' + id) as RelativePathString)}      
+          />  
+          <PlaceCategory 
+            horizontal = {false}
+            placeArray={place}
+            title='Nearest Places'
+            strArray={strArray}
+            setFavorite={setFavorite}
+            openText='See all'
+            openVoid={()=> alert('Nearest Places see all cliked')}   
+            onItemPress = {(id)=>router.push(('/components/cards/' + id) as RelativePathString)}      
+          />                         
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
